@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LandRegistry</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+
+<body>
+
+    <!-- ======================= NAVBAR ======================= -->
+    <nav class="navbar">
+        <div class="logo">
+            <span style="color:#222;font-weight:bold;">Land</span>
+            <span style="color:#387AFF;font-weight:bold;">Registry</span>
+        </div>
+
+        <ul class="nav-links">
+
+            <li><a href="{{ url_for('landing') }}" class="active">Home</a></li>
+            <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            <li><a href="{{ url_for('land') }}">Land Inspector</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li><a href="{{ url_for('features') }}">Features</a></li>
+            <li><a href="{{ url_for('faqs') }}">FAQs</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+
+            <!-- LOGIN / LOGOUT logic -->
+            {% if session.get('user_id') %}
+                <li class="nav-auth"><a href="{{ url_for('account_details') }}">Account</a></li>
+                <li class="nav-auth2"><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li class="nav-auth"><a href="{{ url_for('login') }}">Login</a></li>
+                <li class="nav-auth"><a href="{{ url_for('signin') }}">Sign Up</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- ======================= HERO ======================= -->
+    <section class="hero">
+        <h1>Secure Land Registry</h1>
+        <h2 class="highlight">Made Simple</h2>
+
+        <p class="subtitle">
+            Experience fast, secure, and transparent land registration with our modern digital platform.<br>
+            Your property rights, protected by cutting-edge technology.
+        </p>
+
+        <div class="hero-btns">
+            <a href="{{ url_for('signin') }}" class="btn primary">Get Started</a>
+            <a href="{{ url_for('learnmore') }}" class="btn outline">Learn More</a>
+        </div>
+
+        <div class="trusted">Trusted by thousands of property owners</div>
+
+        <div class="features-bar">
+            <span><span class="dot"></span> Bank-level Security</span>
+            <span><span class="dot"></span> 24/7 Support</span>
+            <span><span class="dot"></span> Instant Verification</span>
+        </div>
+    </section>
+
+</body>
+</html>

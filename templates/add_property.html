@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Property</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root{
+      --primary: #1542c8;
+      --primary-hover: #1e4ff2;
+      --bg: #f1f4ff;
+      --card: #fff;
+      --dashed: #b8c7ff;
+      --border: #cbd6ff;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------------- BLUE NAVBAR (Same as My Properties page) ---------------- */
+    .navbar {
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 35px;
+      box-shadow: 0 4px 16px rgba(21,66,200,0.20);
+      border-bottom: 2px solid #1136a3;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background-color: #1542c8;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .back-btn:hover { background: #164f9e; }
+
+    .nav-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1542c8;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .nav-right a {
+      color: #1542c8;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 7px 13px;
+      border-radius: 6px;
+      transition: 0.2s;
+    }
+
+    .nav-right a:hover {
+      background: rgba(38, 116, 205, 0.15);
+    }
+
+    /* ---------------- MAIN CONTAINER ---------------- */
+    .container{
+      width: 70%;
+      margin: 36px auto;
+      background: var(--card);
+      border-radius: 14px;
+      padding: 34px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    }
+
+    h1{ 
+      text-align:center; 
+      color:var(--primary); 
+      margin:0 0 18px; 
+      font-size:26px; 
+      font-weight:800; 
+    }
+
+    label{ display:block; margin-top:14px; font-weight:700; color:#222; }
+
+    input, select, textarea {
+      width:100%;
+      padding:12px 14px;
+      border-radius:10px;
+      border:2px solid var(--border);
+      margin-top:8px;
+      font-size:15px;
+      transition: box-shadow .18s, border-color .18s;
+      box-sizing:border-box;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 8px rgba(21,66,200,0.12);
+      outline: none;
+    }
+
+    /* Remove number arrows */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number] { -moz-appearance: textfield; }
+
+    .readonly-input {
+      background:#eaf0ff; 
+      border-color:#b5c9ff; 
+      font-weight:700; 
+      color:#06143a;
+      cursor:not-allowed;
+    }
+
+    .upload-box {
+      border:2px dashed var(--dashed);
+      border-radius:10px;
+      padding:16px;
+      margin-top:8px;
+      text-align:center;
+      color:var(--primary);
+      font-weight:700;
+      cursor:pointer;
+      transition: background .15s, transform .08s;
+    }
+
+    .upload-box:hover { background:#f3f6ff; transform:translateY(-2px); }
+
+    .pdf-card {
+      display:none;
+      margin-top:10px;
+      padding:12px;
+      border-radius:10px;
+      border:2px solid var(--border);
+      background:white;
+      box-shadow:0 4px 14px rgba(0,0,0,0.08);
+    }
+
+    .pdf-card-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-weight:700;
+      color:var(--primary);
+      margin-bottom:8px;
+    }
+
+    .pdf-card iframe {
+      width:100%;
+      height:300px;
+      border:none;
+      border-radius:8px;
+    }
+
+    .btn-toggle{
+      background:var(--primary); color:white;
+      border:none; border-radius:8px;
+      padding:6px 12px; cursor:pointer;
+      font-weight:700;
+    }
+    .btn-toggle:hover{ background:var(--primary-hover); }
+
+    .multi-preview img { 
+      width:120px; margin:8px; 
+      border-radius:8px; 
+      box-shadow:0 6px 18px rgba(0,0,0,0.08); 
+    }
+
+    button {
+      width:100%;
+      padding:14px;
+      margin-top:20px;
+      background:var(--primary);
+      color:white;
+      border:none;
+      border-radius:10px;
+      font-weight:800;
+      font-size:15px;
+      cursor:pointer;
+    }
+    button:hover { background:var(--primary-hover); }
+
+    /* popup */
+    #popup {
+      display:none;
+      position: fixed;
+      z-index: 1100;
+      left:50%;
+      top:50%;
+      transform: translate(-50%, -50%) scale(0.85);
+      background: #ffffff;
+      padding:40px 45px;
+      border-radius:22px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.22);
+      text-align:center;
+      width: 420px;
+      animation: pop .30s ease forwards;
+    }
+
+    #popup img {
+      width:170px;
+      margin-bottom:20px;
+      display:block;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    #popup .msg {
+      font-size:23px;
+      line-height:1.4;
+      font-weight:900;
+      color:var(--primary);
+      margin-top:10px;
+      margin-bottom:5px;
+      text-align:center;
+    }
+
+    @keyframes pop {
+      from{ transform:translate(-50%, -50%) scale(0.5); opacity:0; }
+      to  { transform:translate(-50%, -50%) scale(1); opacity:1; }
+    }
+
+    @media (max-width: 920px){
+      .container { width: 92%; padding:20px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BLUE NAVBAR (Same as My Properties) -->
+  <div class="navbar">
+    <div class="nav-left">
+      <a href="{{ url_for('myproperties') }}" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+             stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+             width="28" height="28" viewBox="0 0 24 24">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </a>
+
+      <span class="nav-title">Add Property</span>
+    </div>
+
+    <div class="nav-right">
+      <a href="{{ url_for('help_page') }}">Help</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="container">
+    <h1>Add New Property</h1>
+
+    <form id="propertyForm" action="{{ url_for('add_property') }}" method="POST" enctype="multipart/form-data">
+
+      <label>Owner Full Name</label>
+      <input type="text" name="owner" value="{{ ownername }}" readonly class="readonly-input">
+
+      <label>Location</label>
+      <select name="location" required>
+        <option value="">Select Location</option>
+        <option>Hyderabad</option>
+        <option>Warangal</option>
+        <option>Nalgonda</option>
+        <option>Khammam</option>
+        <option>Karimnagar</option>
+        <option>Nizamabad</option>
+        <option>Mahabubnagar</option>
+        <option>Adilabad</option>
+        <option>Sangareddy</option>
+        <option>Medchal</option>
+        <option>Vikarabad</option>
+        <option>Mancherial</option>
+        <option>Mahabubabad</option>
+        <option>Kothagudem</option>
+      </select>
+
+      <label>Size (sq.ft.)</label>
+      <input type="text" name="size" required>
+
+      <label>Estimated Value (₹)</label>
+      <input type="number" name="price" required>
+
+      <label>Land Type</label>
+      <select name="type" required>
+        <option value="">Select Land Type</option>
+        <option>Residential</option>
+        <option>Agricultural</option>
+        <option>Commercial</option>
+      </select>
+
+      <!-- Uploads -->
+      <label>Aadhar Card (PDF)</label>
+      <div class="upload-box" onclick="document.getElementById('aadhar').click()">Upload Aadhar</div>
+      <input id="aadhar" type="file" accept="application/pdf" name="aadhar_card" required style="display:none"
+             onchange="handlePDF(this,'aadhar-box')">
+      <div id="aadhar-box" class="pdf-card"></div>
+
+      <label>Encumbrance Certificate (PDF)</label>
+      <div class="upload-box" onclick="document.getElementById('enc').click()">Upload Certificate</div>
+      <input id="enc" type="file" accept="application/pdf" name="encumbrance_certificate" required style="display:none"
+             onchange="handlePDF(this,'enc-box')">
+      <div id="enc-box" class="pdf-card"></div>
+
+      <label>Sales Deed (PDF)</label>
+      <div class="upload-box" onclick="document.getElementById('sales').click()">Upload Sales Deed</div>
+      <input id="sales" type="file" accept="application/pdf" name="sales_deed" required style="display:none"
+             onchange="handlePDF(this,'sales-box')">
+      <div id="sales-box" class="pdf-card"></div>
+
+      <label>Property Tax Receipts (PDF)</label>
+      <div class="upload-box" onclick="document.getElementById('tax').click()">Upload Receipt</div>
+      <input id="tax" type="file" accept="application/pdf" name="property_tax_receipts" required style="display:none"
+             onchange="handlePDF(this,'tax-box')">
+      <div id="tax-box" class="pdf-card"></div>
+
+      <label>Land Map/Layout (PDF)</label>
+      <div class="upload-box" onclick="document.getElementById('map').click()">Upload Map</div>
+      <input id="map" type="file" accept="application/pdf" name="land_map" required style="display:none"
+             onchange="handlePDF(this,'map-box')">
+      <div id="map-box" class="pdf-card"></div>
+
+      <label>Land Photos (images)</label>
+      <div class="upload-box" onclick="document.getElementById('photos').click()">Upload Photos</div>
+      <input id="photos" type="file" accept="image/*" multiple style="display:none"
+             onchange="previewMultipleImages(this,'photos-view')">
+      <div id="photos-view" class="multi-preview"></div>
+
+      <label>Full Address</label>
+      <textarea name="address" rows="3" required></textarea>
+
+      <button onclick="handleSubmit(event)">Submit Property for Verification</button>
+    </form>
+  </div>
+
+  <!-- Popup -->
+ <div id="popup">
+  <img src="https://i.ibb.co/MyQ8G5yq/generated-image-1.jpg" alt="generated-image-1" >
+  <div class="msg">✔ Success!<br>Your property is now queued for inspection.</div>
+</div>
+
+
+  <script>
+    const MAX = 2 * 1024 * 1024; // 2MB
+
+    function handleSubmit(evt){
+      const form = document.getElementById('propertyForm');
+      if(!form.checkValidity()){
+        form.reportValidity();
+        return;
+      }
+      evt.preventDefault();
+      const popup = document.getElementById('popup');
+      popup.style.display = "block";
+      setTimeout(()=> form.submit(),2000);
+    }
+
+    function handlePDF(input, boxId){
+      const box = document.getElementById(boxId);
+      box.innerHTML = "";
+      box.style.display="none";
+
+      if(!input.files[0]) return;
+
+      const file = input.files[0];
+
+      if(file.size > MAX){
+        box.innerHTML = "<div style='color:red;font-weight:800;'>File too large (Max 2MB)</div>";
+        box.style.display="block";
+        input.value="";
+        return;
+      }
+
+      if(file.type !== "application/pdf"){
+        box.innerHTML = "<div style='color:red;font-weight:800;'>Upload PDF only</div>";
+        box.style.display="block";
+        input.value="";
+        return;
+      }
+
+      const url = URL.createObjectURL(file);
+      const filename = file.name.length>40 ? file.name.slice(0,37)+"..." : file.name;
+
+      box.innerHTML = `
+        <div class="pdf-card-header">
+          <span>📄 ${filename}</span>
+          <button class="btn-toggle" type="button" onclick="togglePDF('${boxId}_frame',this)">Hide</button>
+        </div>
+        <iframe id="${boxId}_frame" src="${url}"></iframe>
+      `;
+      box.style.display="block";
+    }
+
+    function togglePDF(id,btn){
+      const iframe=document.getElementById(id);
+      if(iframe.style.display==="none"){
+        iframe.style.display="block";
+        btn.textContent="Hide";
+      }else{
+        iframe.style.display="none";
+        btn.textContent="Show";
+      }
+    }
+
+    function previewMultipleImages(input, containerId){
+      const container = document.getElementById(containerId);
+      container.innerHTML="";
+      Array.from(input.files).forEach(file=>{
+        if(!file.type.startsWith("image/")) return;
+        const img=document.createElement("img");
+        img.src=URL.createObjectURL(file);
+        container.appendChild(img);
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+/* gov_style.css: basic official look (same as before) */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f6f8fa;
+  color: #243c5a;
+  padding: 30px;
+}
+
+h1 {
+  font-weight: 900;
+  font-size: 2.8rem;
+  margin-bottom: 25px;
+}
+
+label {
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 20px;
+}
+
+textarea, input[type="text"], input[type="file"], input[type="email"], select {
+  width: 100%;
+  max-width: 480px;
+  padding: 10px 12px;
+  border: 1.5px solid #3b4a71;
+  border-radius: 6px;
+  font-size: 1.05rem;
+  color: #1c2541;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+button {
+  margin-top: 25px;
+  padding: 14px 22px;
+  background-color: #1b355f;
+  color: white;
+  font-weight: 700;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+}
+
+button:hover {
+  background-color: #324a89;
+}
+
+.gov-table {
+  width: 100%;
+  max-width: 900px;
+  border-collapse: collapse;
+  margin-bottom: 50px;
+  margin-top: 20px;
+}
+
+.gov-table th, .gov-table td {
+  border: 1px solid #a8aecf;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #243c5a;
+}
+
+.gov-table tbody tr:hover {
+  background-color: #e2e8f0;
+  cursor: pointer;
+}

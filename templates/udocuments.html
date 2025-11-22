@@ -1,0 +1,202 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Documents</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            margin: 40px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        img {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin: 10px;
+            width: 300px;
+            height: auto;
+        }
+        .doc-section {
+            margin-bottom: 30px;
+        }
+        .photos img {
+            width: 200px;
+            margin: 5px;
+        }
+        a.download-link {
+            display: inline-block;
+            margin-top: 8px;
+            background: #007bff;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        a.download-link:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Property Documents for {{ user_name }}</h1>
+    <h3>Land ID: {{ land_id }}</h3>
+
+    <div class="doc-section">
+        {% if aadhar_url %}
+            <h2>Aadhar Card</h2>
+            <img src="{{ aadhar_url }}" alt="Aadhar Card">
+            <br>
+            <a href="{{ aadhar_url }}" class="download-link" download>Download</a>
+        {% endif %}
+    </div>
+
+    <div class="doc-section">
+        {% if encumbrance_url %}
+            <h2>Encumbrance Certificate</h2>
+            <img src="{{ encumbrance_url }}" alt="Encumbrance Certificate">
+            <br>
+            <a href="{{ encumbrance_url }}" class="download-link" download>Download</a>
+        {% endif %}
+    </div>
+
+    <div class="doc-section">
+        {% if sale_deed_url %}
+            <h2>Sales Deed</h2>
+            <img src="{{ sale_deed_url }}" alt="Sales Deed">
+            <br>
+            <a href="{{ sale_deed_url }}" class="download-link" download>Download</a>
+        {% endif %}
+    </div>
+
+    <div class="doc-section">
+        {% if tax_receipt_url %}
+            <h2>Property Tax Receipts</h2>
+            <img src="{{ tax_receipt_url }}" alt="Property Tax Receipts">
+            <br>
+            <a href="{{ tax_receipt_url }}" class="download-link" download>Download</a>
+        {% endif %}
+    </div>
+
+    <div class="doc-section">
+        {% if land_map_url %}
+            <h2>Land Map</h2>
+            <img src="{{ land_map_url }}" alt="Land Map">
+            <br>
+            <a href="{{ land_map_url }}" class="download-link" download>Download</a>
+        {% endif %}
+    </div>
+
+    <div class="doc-section photos">
+        {% if land_photos %}
+            <h2>Land Photos</h2>
+            {% for photo in land_photos %}
+                <img src="{{ photo }}" alt="Land Photo">
+            {% endfor %}
+        {% else %}
+            <p>No land photos available.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Documents</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f6f8ff;
+            margin: 0;
+            padding: 30px;
+        }
+        h1 {
+            color: #1e3a8a;
+            text-align: center;
+        }
+        .doc-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .doc-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            width: 320px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .doc-card h3 {
+            color: #333;
+        }
+        iframe, img {
+            width: 100%;
+            height: 220px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .status {
+            margin-top: 8px;
+            font-weight: 600;
+        }
+        .status.verified { color: green; }
+        .status.rejected { color: red; }
+        .status.pending { color: #555; }
+    </style>
+</head>
+<body>
+    <h1>Property Documents for {{ user_name }}</h1>
+    <h3 style="text-align:center;">Land ID: {{ land_id }}</h3>
+
+    <div class="doc-container">
+
+        {% macro show_doc(title, url, status, reason) %}
+        <div class="doc-card">
+            <h3>{{ title }}</h3>
+            {% if url %}
+                {% if url.endswith('.pdf') %}
+                    <iframe src="{{ url }}"></iframe>
+                {% else %}
+                    <img src="{{ url }}" alt="{{ title }}">
+                {% endif %}
+            {% else %}
+                <p style="color:#999;">No file uploaded</p>
+            {% endif %}
+            <div class="status {{ status|default('pending') }}">{{ status|capitalize }}</div>
+            {% if reason %}
+                <p style="color:gray;font-size:0.9em;">Reason: {{ reason }}</p>
+            {% endif %}
+        </div>
+        {% endmacro %}
+
+        {{ show_doc("Aadhar Card", aadhar_card, aadhar_card_status, aadhar_card_rejection_reason) }}
+        {{ show_doc("Land Map", land_map, land_map_status, land_map_rejection_reason) }}
+        {{ show_doc("Sales Deed", sales_deed, sales_deed_status, sales_deed_rejection_reason) }}
+        {{ show_doc("Property Tax Receipts", property_tax_receipts, property_tax_receipts_status, property_tax_receipts_rejection_reason) }}
+        {{ show_doc("Encumbrance Certificate", encumbrance_certificate, encumbrance_certificate_status, encumbrance_certificate_rejection_reason) }}
+
+        <div class="doc-card">
+            <h3>Land Photos</h3>
+            {% if land_photos %}
+                {% for photo in land_photos %}
+                    {% if photo.endswith('.pdf') %}
+                        <iframe src="{{ photo }}"></iframe>
+                    {% else %}
+                        <img src="{{ photo }}" alt="Land Photo">
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p style="color:#999;">No land photos uploaded.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

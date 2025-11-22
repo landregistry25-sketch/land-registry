@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Messages – Land Registry Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style2A.css') }}">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6fb;
+      margin: 0;
+      color: #222;
+    }
+
+    .navbar {
+      background: white;
+      padding: 15px 30px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar .admin-name {
+      font-weight: 700;
+      color: #205493;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #205493;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #1542c8;
+    }
+
+    .nav-auth2 a {
+      background: #e63946;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .nav-auth2 a:hover {
+      background: #b91c1c;
+    }
+
+    .container {
+      max-width: 1000px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(56,122,255,0.15);
+      padding: 30px;
+      margin: 40px auto;
+    }
+
+    h2 {
+      color: #205493;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border-bottom: 1px solid #d7e4f5;
+      padding: 14px 20px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #e5ecfa;
+      color: #205493;
+      font-weight: 700;
+    }
+
+    tr:hover {
+      background-color: #f5f8ff;
+    }
+
+    .btn-delete {
+      background: #e63946;
+      color: white;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-delete:hover {
+      background: #b91c1c;
+    }
+
+    .empty {
+      text-align: center;
+      color: #777;
+      padding: 40px 0;
+    }
+
+    @media (max-width: 768px) {
+      table, th, td {
+        font-size: 0.85rem;
+      }
+
+      .container {
+        width: 95%;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="admin-name">👤 {{ admin_name }}</div>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('admin_dashboard') }}">Manage Inspectors</a></li>
+      <li class="active"><a href="{{ url_for('admin_contact_messages') }}">Contact Messages</a></li>
+      <li class="nav-auth2"><a href="{{ url_for('admin_logout') }}">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h2>📩 User Contact Messages</h2>
+
+    {% if messages %}
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Subject</th>
+          <th>Message</th>
+          <th>Received</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for msg in messages %}
+        <tr>
+          <td>{{ msg.id }}</td>
+          <td>{{ msg.name }}</td>
+          <td>{{ msg.email }}</td>
+          <td>{{ msg.subject or '—' }}</td>
+          <td>{{ msg.message }}</td>
+          <td>{{ msg.message_time.strftime('%Y-%m-%d %H:%M:%S') if msg.message_time else '—' }}</td>
+          <td>
+            <form method="POST" action="{{ url_for('delete_contact_message', message_id=msg.id) }}" onsubmit="return confirm('Delete this message?');">
+              <button type="submit" class="btn-delete">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <div class="empty">No messages found.</div>
+    {% endif %}
+  </div>
+
+</body>
+</html>

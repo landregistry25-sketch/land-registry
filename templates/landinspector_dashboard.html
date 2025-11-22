@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Land Inspector Dashboard</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+  <style>
+    .land-inspectors {
+      flex: 2;
+      overflow-x: auto;
+      margin: 20px auto;
+      width: 80%;
+      padding: 16px;
+      border: 1.8px solid #eeeff1;
+      border-radius: 12px;
+      background-color: #f9fbff;
+    }
+
+    .land-inspectors table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      color: #222;
+    }
+
+    .land-inspectors th,
+    .land-inspectors td {
+      padding: 14px 22px;
+      border-bottom: 1px solid #d7e4f5;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .land-inspectors th {
+      background-color: #e5ecfa;
+      font-weight: 700;
+      color: #205493;
+    }
+
+    .land-inspectors tr:hover {
+      background-color: #f0f4ff;
+      cursor: pointer;
+    }
+
+    .btn-verify {
+      background-color: #194d33;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s, transform 0.12s;
+    }
+
+    .btn-verify:hover { transform: translateY(-1px); }
+    .btn-reject {
+      background-color: #e01b1b;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.2s, transform 0.12s;
+    }
+
+    .btn-reject:hover { transform: translateY(-1px); }
+
+    .view-link {
+      display:inline-block;
+      background:#1a73e8;
+      color:#fff;
+      padding:6px 12px;
+      border-radius:6px;
+      text-decoration:none;
+      font-weight:600;
+    }
+    .view-link:hover { background:#0a58ca; }
+
+    .status-tag {
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .status-pending { background: #fff4cc; color: #9a7b00; }
+    .status-verified { background: #d6f5d6; color: #1d7034; }
+    .status-rejected { background: #ffd6d6; color: #b31212; }
+
+    /* responsive */
+    @media (max-width: 900px) {
+      .land-inspectors { width: 96%; padding: 10px; }
+      .land-inspectors th, .land-inspectors td { padding: 10px; font-size:0.9rem; }
+    }
+
+    .actions { display:flex; gap:10px; align-items:center; }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <span style="color:#222;font-weight:bold;">Welcome, </span>
+      <span style="color:#387AFF;font-weight:bold;">{{ inspector_name }}</span>
+    </div>
+    <nav class="nav-auth2">
+      <a href="{{ url_for('landinspector_logout') }}">Logout</a>
+    </nav>
+  </nav>
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="flash-message">
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <section>
+    <center><h2>Verification Requests</h2></center>
+
+    {% if verification_requests %}
+    <div class="land-inspectors">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Owner</th>
+            <th>Location</th>
+            <th>Land ID</th>
+            <th>Documents</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for req in verification_requests %}
+          <tr>
+            <td>{{ req.id }}</td>
+            <td>{{ req.owner }}</td>
+            <td>{{ req.location if req.location is defined else 'N/A' }}</td>
+            <td>{{ req.landid }}</td>
+
+            <td>
+              <a href="{{ url_for('verify_property', land_id=req.landid) }}" class="view-link">View Document</a>
+            </td>
+
+            <td>
+              {% if req.status == 'verified' %}
+                <span class="status-tag status-verified">Verified ✅</span>
+              {% elif req.status == 'rejected' %}
+                <span class="status-tag status-rejected">Rejected ❌</span>
+              {% else %}
+                <span class="status-tag status-pending">Pending</span>
+              {% endif %}
+            </td>
+
+            <td>
+  {% if req.status == 'verified' %}
+    <button class="btn-verify" disabled>Verified</button>
+    <button class="btn-reject" disabled>Reject</button>
+
+  {% elif req.status == 'ready' %}
+    <!-- All docs verified → reject locked -->
+    <div class="actions">
+      <form method="POST" action="{{ url_for('verify_request', request_id=req.id) }}" style="margin:0;">
+        <button type="submit" class="btn-verify">Verify</button>
+      </form>
+      <button class="btn-reject" disabled>Reject</button>
+    </div>
+
+  {% elif req.status == 'rejected' %}
+    <!-- Any doc rejected → verify locked -->
+    <div class="actions">
+      <button class="btn-verify" disabled>Verify</button>
+      <form method="POST" action="{{ url_for('inspector_reject_request', request_id=req.id) }}" style="margin:0;" onsubmit="return confirm('Reject this property and notify the owner?');">
+        <button type="submit" class="btn-reject">Reject</button>
+      </form>
+    </div>
+
+  {% else %}
+    <!-- Pending -->
+    <div class="actions">
+      <form method="POST" action="{{ url_for('verify_request', request_id=req.id) }}" style="margin:0;">
+        <button type="submit" class="btn-verify">Verify</button>
+      </form>
+      <form method="POST" action="{{ url_for('inspector_reject_request', request_id=req.id) }}" style="margin:0;">
+        <button type="submit" class="btn-reject">Reject</button>
+      </form>
+    </div>
+  {% endif %}
+</td>
+
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p style="padding:30px 10px;">No verification requests available.</p>
+    {% endif %}
+  </section>
+
+</body>
+</html>

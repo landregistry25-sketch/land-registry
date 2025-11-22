@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Land Inspector - LandRegistry</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}" >
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><span style="color:#222;font-weight:bold;">Land</span><span style="color:#387AFF;font-weight:bold;">Registry</span></div>
+        <ul class="nav-links">
+            {% if session.get('username') %}
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            {% else %}
+	    <li><a href="{{ url_for('landing') }}">Home</a></li>			
+            {% endif %}
+            <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            <li><a href="{{ url_for('land') }}">Land Inspector</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li><a href="{{ url_for('features') }}">Features</a></li>
+            <li><a href="{{ url_for('faqs') }}">FAQs</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            <li class="nav-auth"><a href="{{ url_for('login') }}">Login</a></li>
+            <li class="nav-auth"><a href="{{ url_for('signin') }}">Sign Up</a></li>
+        </ul>
+    </nav>
+    <div class="page-section">
+        <h2>Land Inspector</h2>
+       
+       
+    </div>
+</body>
+</html>
+

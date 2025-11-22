@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Buyer Requests</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+<body>
+    <div class="container" style="max-width:820px; margin:48px auto 32px auto;">
+        <h1 style="font-size:2em; font-weight:800; margin-bottom:35px; text-align:center;">Buyer Requests for Your Properties</h1>
+        <table border="1" cellpadding="5" cellspacing="0" style="width:100%; border-radius:10px;">
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Buyer Name</th>
+                    <th>Contact Number</th>
+                    <th>Status</th>
+                    <th>Requested At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>{{ req.id }}</td>
+                    <td>{{ req.fullname }}</td>
+                    <td>{{ req.phone }}</td>
+                    <td>{{ req.status }}</td>
+                    <td>{{ req.requestedat }}</td>
+                    <td>
+                        <form action="{{ url_for('approverequest1', requestid=req.id) }}" method="post" style="display:inline;">
+                            <button type="submit" style="background:#417ffc; color:#fff; padding:7px 21px; border-radius:7px;">Approve</button>
+                        </form>
+                        <form action="{{ url_for('rejectrequest1', requestid=req.id) }}" method="post" style="display:inline;">
+                            <button type="submit" style="background:#b7322c; color:#fff; padding:7px 21px; border-radius:7px;">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6">No buyer requests at the moment.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

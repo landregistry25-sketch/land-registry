@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Forgot Username</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styleA.css') }}" />
+</head>
+<body>
+  <div class="container" style="text-align: center;">
+    <h2>Forgot Username</h2>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('forgot_username') }}" method="post" autocomplete="off">
+      <label for="email">Enter Your Registered Email Address</label>
+      <input type="email" name="email" id="email" required />
+      <button type="submit">Send Username</button>
+    </form>
+    <div class="links">
+      <a href="{{ url_for('login') }}">Back to Login</a>
+    </div>
+  </div>
+</body>
+</html>

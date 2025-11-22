@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #eef2f7;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* -------------------------------
+       NEW SELL-PAGE NAVBAR STYLE
+       ------------------------------- */
+    .navbar {
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 35px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.18);
+        border-bottom: 2px solid #e5e5e5;
+    }
+
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .back-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        background-color: black;
+        color: white;
+        font-size: 18px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+    .back-btn:hover {
+        background: #333;
+    }
+
+    .nav-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: black;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .nav-right a {
+        color: black;
+        font-weight: 600;
+        text-decoration: none;
+        padding: 7px 13px;
+        border-radius: 6px;
+        transition: 0.2s;
+    }
+    .nav-right a:hover {
+        background: #eeeeee;
+    }
+
+    /* Page Title */
+    .title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a2b49;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    /* Container */
+    .container {
+        max-width: 800px;
+        margin: 25px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+    }
+
+    .notification {
+        display: flex;
+        border-left: 5px solid #1a73e8;
+        background: #f9faff;
+        padding: 15px;
+        margin-bottom: 18px;
+        border-radius: 12px;
+        align-items: flex-start;
+        transition: 0.2s;
+    }
+
+    .notification:hover {
+        background: #f1f3fa;
+    }
+
+    .photo {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 15px;
+        border: 2px solid #dce3f0;
+    }
+    .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .message {
+        flex: 1;
+        font-size: 15px;
+        color: #2a2a2a;
+        line-height: 1.4;
+    }
+
+    .time {
+        margin-top: 6px;
+        font-size: 13px;
+        color: #7e8aa5;
+    }
+
+    .delete-btn {
+        font-size: 18px;
+        color: #444;
+        cursor: pointer;
+        margin-left: 15px;
+        transition: 0.2s;
+    }
+    .delete-btn:hover {
+        color: #d9534f;
+    }
+
+    /* Certificate section */
+    .certificate-box {
+        background: #fffbea;
+        border-left: 5px solid #ffc107;
+        padding: 18px;
+        margin-top: 18px;
+        border-radius: 15px;
+    }
+    .certificate-box a {
+        display: block;
+        margin-top: 10px;
+        font-size: 15px;
+        color: #1a73e8;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .download-btn {
+        background: #1a73e8;
+        color: white;
+        padding: 10px 18px;
+        margin-top: 10px;
+        border-radius: 10px;
+        display: inline-block;
+        text-decoration: none;
+        font-weight: 600;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- NEW NAVBAR -->
+<!-- NEW VERIFIED-LAND STYLE NAVBAR -->
+<div class="navbar">
+    <div class="nav-left">
+        <a href="{{ url_for('home') }}" class="back-btn" title="Go Back">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+                width="28" height="28" viewBox="0 0 24 24">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </a>
+        <span class="nav-title">Notifications</span>
+    </div>
+
+    <div class="nav-right">
+        <a href="{{ url_for('help_page') }}">Help</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+    </div>
+</div>
+
+<div class="container">
+
+    {% for n in notifications %}
+
+    <a href="{% if 'requested to purchase' in n.message %}{{ url_for('request_page') }}{% else %}#{% endif %}"
+       style="text-decoration:none;color:inherit;">
+       
+    <div class="notification">
+
+        <div class="photo">
+        {% if n.photo %}
+            <img src="{{ url_for('uploaded_file', filename=n.photo) }}">
+        {% else %}
+            <img src="{{ url_for('static', filename='default_user.png') }}" alt="Default Photo">
+        {% endif %}
+        </div>
+
+        <div class="message">
+            {{ n.message | safe }}
+            <div class="time">{{ n.created_at }}</div>
+        </div>
+
+        <form method="POST" action="/delete_notification/{{ n.id }}">
+            <button style="background:none;border:none;">
+                <i class="fa fa-trash delete-btn"></i>
+            </button>
+        </form>
+
+    </div>
+    </a>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

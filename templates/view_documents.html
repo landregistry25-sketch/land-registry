@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>View Documents</title>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6fc;
+    margin: 0;
+    padding: 20px;
+  }
+  .container {
+    background: white;
+    border-radius: 10px;
+    padding: 25px 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin: auto;
+  }
+  h2 {
+    color: #1542c8;
+    margin-bottom: 25px;
+  }
+  a.doc-link {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccd5ff;
+    border-radius: 6px;
+    background: #f9faff;
+    color: #0a3d62;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  a.doc-link:hover {
+    background: #e9ecff;
+  }
+  .photo-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .photo-preview img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Documents for Land ID {{ land.id }}</h2>
+
+  {% for name, url in docs.items() if name != 'Land Photos' %}
+    {% if url %}
+      <a class="doc-link" href="{{ url }}" target="_blank">{{ name }}</a>
+    {% else %}
+      <p><strong>{{ name }}:</strong> Not Uploaded</p>
+    {% endif %}
+  {% endfor %}
+
+  {% if docs['Land Photos'] %}
+    <h3>Land Photos:</h3>
+    <div class="photo-preview">
+      {% for photo in docs['Land Photos'] %}
+        <img src="{{ photo }}" alt="Land Photo">
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+</body>
+</html>

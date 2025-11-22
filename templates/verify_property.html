@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Property - Land Inspector</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f8ff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 30px 40px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1939b7;
+            margin-bottom: 25px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section h3 {
+            color: #143b9a;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .details-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .details-table td:first-child {
+            font-weight: 600;
+            width: 200px;
+            color: #333;
+        }
+
+        .doc-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        .doc-links a {
+            display: block;
+            padding: 12px;
+            background-color: #eef3ff;
+            border: 1px solid #d6e0ff;
+            border-radius: 10px;
+            color: #1939b7;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .doc-links a:hover {
+            background-color: #dbe6ff;
+        }
+
+        .photos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .photos img {
+            width: 180px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+        }
+
+        .action-box {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-approve {
+            background-color: #2b63f1;
+            color: white;
+        }
+
+        .btn-approve:hover {
+            background-color: #1d49c2;
+            transform: translateY(-2px);
+        }
+
+        .btn-reject {
+            background-color: #e33c2f;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .btn-reject:hover {
+            background-color: #c22f23;
+            transform: translateY(-2px);
+        }
+
+        #rejection-box {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            resize: none;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .back-link {
+            display: inline-block;
+            text-decoration: none;
+            color: #1939b7;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <script>
+        function showRejectionBox() {
+            document.getElementById("rejection-box").style.display = "block";
+        }
+        function hideRejectionBox() {
+            document.getElementById("rejection-box").style.display = "none";
+        }
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <a href="{{ url_for('landinspector_dashboard') }}" class="back-link">← Back to Dashboard</a>
+        <h2>Verify Property</h2>
+
+        <div class="section">
+            <h3>Property Details</h3>
+            <table class="details-table">
+                <tr><td>Owner Name:</td><td>{{ land.ownername }}</td></tr>
+                <tr><td>Location:</td><td>{{ land.location }}</td></tr>
+                <tr><td>Type:</td><td>{{ land.type }}</td></tr>
+                <tr><td>Size:</td><td>{{ land.size }} sq.ft</td></tr>
+                <tr><td>Price:</td><td>₹{{ land.price }}</td></tr>
+                <tr><td>Submitted From:</td><td>{{ land.submitted_from }}</td></tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h3>Documents</h3>
+            <div class="doc-links">
+                {% if land.aadhar_card %}<a href="{{ url_for('uploaded_file', filename=land.aadhar_card) }}" target="_blank">Aadhar Card</a>{% endif %}
+                {% if land.land_map %}<a href="{{ url_for('uploaded_file', filename=land.land_map) }}" target="_blank">Land Map</a>{% endif %}
+                {% if land.sales_deed %}<a href="{{ url_for('uploaded_file', filename=land.sales_deed) }}" target="_blank">Sales Deed</a>{% endif %}
+                {% if land.property_tax_receipts %}<a href="{{ url_for('uploaded_file', filename=land.property_tax_receipts) }}" target="_blank">Property Tax Receipts</a>{% endif %}
+                {% if land.encumbrance_certificate %}<a href="{{ url_for('uploaded_file', filename=land.encumbrance_certificate) }}" target="_blank">Encumbrance Certificate</a>{% endif %}
+            </div>
+        </div>
+
+        {% if photos %}
+        <div class="section">
+            <h3>Land Photos</h3>
+            <div class="photos">
+                {% for photo in photos %}
+                    <img src="{{ url_for('uploaded_file', filename=photo) }}" alt="Land Photo">
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="action-box">
+                <button type="submit" name="action" value="approve" class="btn btn-approve" onclick="hideRejectionBox()">✅ Approve</button>
+                <button type="button" class="btn btn-reject" onclick="showRejectionBox()">❌ Reject</button>
+            </div>
+
+            <div id="rejection-box">
+                <label for="rejection_reason"><b>Rejection Reason:</b></label>
+                <textarea name="rejection_reason" placeholder="Enter reason for rejection..."></textarea>
+                <div class="action-box" style="margin-top:10px;">
+                    <button type="submit" name="action" value="reject" class="btn btn-reject">Confirm Reject</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

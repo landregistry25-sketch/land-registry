@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>More About Land Registry</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background:linear-gradient(135deg,#f3f6fc 0%,#eef2fb 100%);
+        color: #333;
+        overflow-x: hidden;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 30px 20px;
+        animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h1 {
+        font-size: 40px;
+        text-align: center;
+        color: #0d1b3d;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    .underline {
+        width: 200px;
+        height: 4px;
+        background: #3d7ff5;
+        margin: 0 auto 50px auto;
+        border-radius: 3px;
+    }
+
+    .section {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 30px;
+        margin-bottom: 45px;
+        box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        
+    }
+
+    .section img {
+        width: 380px;
+        height: 200px;
+        border-radius: 10px;
+        border: 2px solid  #3d7ff5 ;
+    }
+
+    .text {
+        font-size: 18px;
+        text-align: justify;
+        color: #2c3550;
+    }
+
+    .tagline {
+        text-align: center;
+        font-size: 18px;
+        margin-top: 30px;
+        color: #1e3b72;
+        font-weight: 600;
+    }
+
+    .btn-back {
+        background: #3d7ff5;
+        color: #fff;
+        border: none;
+        padding: 13px 35px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 18px;
+        margin: 30px auto 0 auto;
+        text-decoration: none;
+        display: block;
+        width: fit-content;
+        transition: 0.3s;
+    }
+
+    .btn-back:hover {
+        background: #2c6de0;
+        transform: translateY(-2px);
+    }
+
+    /* Responsive */
+    @media(max-width:900px){
+        .section {
+            flex-direction: column;
+            text-align: center;
+        }
+        .section img {
+            width: 90%;
+        }
+        .text {
+            text-align: center;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Our Land Registry Vision</h1>
+    <div class="underline"></div>
+
+    <p class="tagline">
+        A transparent, trusted, and technology-driven platform for secure property ownership.
+    </p>
+
+    <!-- Section 1 -->
+    <div class="section">
+        <img src="https://i.ibb.co/WpV4mnGq/Chat-GPT-Image-Nov-5-2025-09-35-17-AM.png" alt="Secure Registry">
+        <div class="text">
+            Our platform modernizes the traditional land registration system by introducing 
+            secure digital records, faster approvals, and seamless verification. 
+            This eliminates fraud, reduces paperwork, and ensures every property transaction is authentic.
+        </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section">
+        <div class="text">
+            With advanced legal frameworks and real-time digital documentation, we empower landowners, 
+            buyers, legal authorities, and government bodies to manage and track property status 
+            effortlessly. Transparency and ease-of-use are the foundations of our system.
+        </div>
+        <img src="https://i.ibb.co/qLQ0d6wb/Chat-GPT-Image-Nov-5-2025-09-31-30-AM.png" alt="Digital Ownership">
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section">
+        <img src="https://i.ibb.co/67SbSmKF/Chat-GPT-Image-Nov-5-2025-09-29-48-AM.png" alt="Data Verification">
+        <div class="text">
+            Our verification engine ensures that documents are authenticated and matched 
+            against property records. This reduces disputes and increases trust during 
+            land transactions. We focus on accuracy, accountability, and secure record maintenance.
+        </div>
+    </div>
+
+    <p class="tagline">
+        Empowering Property Ownership with Trust, Transparency & Technology.
+    </p>
+
+    <a href="{{ url_for('about') }}" class="btn-back">← Back to About</a>
+
+</div>
+
+</body>
+</html>

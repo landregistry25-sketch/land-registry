@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Buy Land Through Blockchain with Multiple Sellers</title>
+
+  <style>
+    :root {
+      --primary: #1542c8;
+      --primary-hover: #1e4ff2;
+      --accent: #3a6df0;
+      --light-bg: #f0f3ff;
+      --text-dark: #14213d;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f3f6fc 0%, #eef2fb 100%);
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ---------------- BLUE NAVBAR ------------------ */
+    .navbar {
+      background: #1542c8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 35px;
+      box-shadow: 0 4px 16px rgba(21,66,200,0.20);
+      border-bottom: 2px solid #1136a3;
+    }
+
+    .nav-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: white;
+    }
+
+    /* ---------------- SEARCH FILTER BAR ------------------ */
+    #search-filter {
+      max-width: 100%;
+      margin: 10px auto 15px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: nowrap;
+      border: 1px solid #ddd;
+      justify-content: flex-start;
+      align-items: center;
+      background: #ffffff;
+      box-shadow: 1px 6px 10px rgba(0,0,0,0.15);
+      padding: 20px;
+    }
+
+    /* NEW: Back button inside filter bar */
+    .back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background-color: #0a3d62;
+      color: #ffffff;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: #105c92;
+    }
+
+    #searchInput {
+      flex: 1;
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 2px solid #0a3d62;
+      border-radius: 5px;
+      outline: none;
+      background-color: #f0eeee;
+      box-shadow: inset 0 5px 3px #5f87a4;
+    }
+
+    #searchInput::placeholder {
+      font-size: 14px;
+    }
+
+    #search-filter select {
+      padding: 10px 12px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 2px solid #0a3d62;
+      background: #fff;
+      outline: none;
+    }
+
+    #land-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding-top: 1cm;
+    }
+
+    .land-card {
+      background: #f8f8ff;
+      border-radius: 10px;
+      border: 2px solid #e0e2e2;
+      box-shadow: 1px 6px 10px rgba(0,0,0,0.15);
+      max-width: 300px;
+      width: 100%;
+      padding: 50px;
+      transition: transform 0.2s;
+    }
+
+    .land-card:hover { transform: translateY(-2px); }
+
+    .land-image {
+      width: 100%;
+      border-radius: 8px;
+      height: auto;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: bold;
+      color: #0a3d62;
+      margin: 10px 0;
+    }
+
+    .moreinfo, .buy-button {
+      width: 90%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #0a3d62;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: 0.3s;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .moreinfo:hover, .buy-button:hover { background-color: #145c91; }
+
+    /* POPUP */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.45);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+      z-index: 5000;
+    }
+
+    .popup-box {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      text-align: center;
+      width: 350px;
+      animation: slideUp 0.35s ease;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.20);
+    }
+
+    .popup-back {
+      background: #0a3d62;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+    @keyframes slideUp { from{transform:translateY(40px);opacity:0;} to{transform:translateY(0);opacity:1;} }
+
+    @media (max-width: 800px) {
+      #search-filter {
+        flex-direction: column;
+        gap: 9px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BLUE NAVBAR -->
+  <!-- <div class="navbar">
+    <span class="nav-title">Buy Land</span>
+  </div> -->
+
+  <!-- SEARCH FILTER BAR (BACK BUTTON INCLUDED) -->
+  <div id="search-filter">
+
+    <a href="{{ url_for('home') }}" class="back-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+           stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+           width="22" height="22" viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </a>
+
+    <input type="text" id="searchInput" placeholder="Search by Seller" onkeyup="filterLand()" />
+
+    <select id="priceFilter" onchange="filterLand()">
+      <option value="">Price</option>
+      <option value="low">Below ₹1 Crore</option>
+      <option value="medium">₹1-2 Crore</option>
+      <option value="high">Above ₹2 Crore</option>
+    </select>
+
+    <select id="sizeFilter" onchange="filterLand()">
+      <option value="">Size</option>
+      <option value="small">Below 100 sq.ft.</option>
+      <option value="medium">100-200 sq.ft.</option>
+      <option value="large">Above 200 sq.ft.</option>
+    </select>
+
+    <select id="locationFilter" onchange="filterLand()">
+      <option value="">Location</option>
+      <option>Hyderabad</option>
+      <option>Warangal</option>
+      <option>Nalgonda</option>
+      <option>Khammam</option>
+      <option>Karimnagar</option>
+      <option>Nizamabad</option>
+      <option>Adilabad</option>
+      <option>Sangareddy</option>
+      <option>Medchal</option>
+      <option>Vikarabad</option>
+      <option>Mancherial</option>
+      <option>Kothagudem</option>
+    </select>
+
+  </div>
+
+  <!-- LAND CARDS -->
+  <div id="land-list">
+    {% for land in lands %}
+    {% set photo = (land.land_photos | default('')).split(',')[0] if land.land_photos else None %}
+    <div class="land-card"
+         data-seller="{{ (land.ownername or '')|lower }}"
+         data-price="{{ land.price or 0 }}"
+         data-size="{{ (land.specifications or '0 sq.ft').split(' ')[0] | int }}"
+         data-location="{{ land.location }}">
+
+      {% if photo %}
+      <img src="{{ url_for('uploaded_file', filename=photo.strip()) }}" class="land-image">
+      {% else %}
+      <img src="{{ url_for('static', filename='images/noimage.jpg') }}" class="land-image">
+      {% endif %}
+
+      <div class="price">₹{{ land.price }}</div>
+
+      <div class="land-details">
+        <p><strong>Seller:</strong> {{ land.ownername }}</p>
+        <p><strong>Size:</strong> {{ land.size }}</p>
+        <p><strong>Location:</strong> {{ land.location }}</p>
+        <p><strong>Type:</strong> {{ land.type }}</p>
+      </div>
+
+      <a class="buy-button" href="{{ url_for('landdetail', landid=land.id) }}">More Info</a>
+
+      <form action="{{ url_for('requesttransfer', landid=land.id) }}" method="POST" onsubmit="return showPopupAndSubmit(this);">
+        <button type="submit" class="moreinfo">Buy</button>
+      </form>
+
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- BUY POPUP -->
+  <div id="buyPopup" class="popup-overlay">
+    <div class="popup-box">
+      <h2>Request Sent!</h2>
+      <p>Your request has been successfully sent to the owner.</p>
+      <button class="popup-back" onclick="closePopup()">Back</button>
+    </div>
+  </div>
+
+  <script>
+    function filterLand() {
+      const searchText = document.getElementById('searchInput').value.toLowerCase();
+      const priceFilter = document.getElementById('priceFilter').value;
+      const sizeFilter = document.getElementById('sizeFilter').value;
+      const locationFilter = document.getElementById('locationFilter').value;
+      const cards = document.querySelectorAll('.land-card');
+
+      cards.forEach(card => {
+        const seller = card.dataset.seller;
+        const price = Number(card.dataset.price);
+        const size = Number(card.dataset.size);
+        const location = card.dataset.location;
+
+        const matchSeller = seller.includes(searchText);
+
+        let matchPrice = true;
+        if (priceFilter === 'low') matchPrice = price < 10000000;
+        else if (priceFilter === 'medium') matchPrice = price >= 10000000 && price <= 20000000;
+        else if (priceFilter === 'high') matchPrice = price > 20000000;
+
+        let matchSize = true;
+        if (sizeFilter === 'small') matchSize = size < 100;
+        else if (sizeFilter === 'medium') matchSize = size >= 100 && size <= 200;
+        else if (sizeFilter === 'large') matchSize = size > 200;
+
+        let matchLocation = !locationFilter || location === locationFilter;
+
+        card.style.display = (matchSeller && matchPrice && matchSize && matchLocation) ? "block" : "none";
+      });
+    }
+
+    function openPopup() {
+      document.getElementById("buyPopup").style.display = "flex";
+    }
+
+    function closePopup() {
+      document.getElementById("buyPopup").style.display = "none";
+    }
+
+    function showPopupAndSubmit(form) {
+      openPopup();
+      setTimeout(() => form.submit(), 1500);
+      return false;
+    }
+  </script>
+
+</body>
+</html>

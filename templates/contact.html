@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+  
+     <!-- <style>
+      body {
+        overflow: scroll;
+      }
+      .contact-section {
+      max-width: 650px;
+      margin: 60px auto;
+      padding: 30px;
+      background: rgba(18, 186, 212, 0.95,0.9);
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+    .contact-section h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #387AFF;
+    }
+    .contact-section p {
+      font-size: 16px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    .contact-form .form-group {
+      margin-bottom: 20px;
+      padding: auto;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 600px;
+      padding: 12px 16px;
+      box-shadow:
+    0 0 12px #83c0fd99,
+    inset 0 0 15px #a4a5a5cc;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+    .contact-form input:hover,
+    .contact-form textarea:hover
+     {
+      background-color: rgb(221, 219, 219);
+     }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #387AFF;
+      outline: none;
+    }
+    .btn.primary {
+      background-color: #387AFF;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.3s ease,background-color 0.3s ease;
+    }
+    .btn.primary:hover {
+      background-color: #224ca6;
+      transform: scale(1.1);
+    }
+    	
+  </style> -->
+  <style>
+  body {
+    overflow: scroll;
+  }
+
+  /* CONTACT CARD – WHITE & PROFESSIONAL */
+  .contact-section {
+    max-width: 650px;
+    margin: 60px auto;
+    padding: 35px;
+    background: #ffffff;  /* White card */
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);  /* Soft premium shadow */
+    text-align: center;
+    border: 1px solid #e5e5e5; /* Light professional border */
+  }
+
+  .contact-section h2 {
+    font-size: 30px;
+    margin-bottom: 12px;
+    color: #000;  /* Black heading */
+    font-weight: 700;
+  }
+
+  .contact-section p {
+    font-size: 16px;
+    margin-bottom: 28px;
+    line-height: 1.6;
+    color: #333; /* Professional dark grey */
+  }
+
+  /* FORM INPUTS */
+  .contact-form .form-group {
+    margin-bottom: 20px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    width: 600px;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #000;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.08);
+  }
+
+  .contact-form input:hover,
+  .contact-form textarea:hover {
+    background-color: #f1f1f1;
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    border-color: #387AFF;
+    background: #fff;
+    box-shadow: 0 0 8px rgba(56,122,255,0.4);
+    outline: none;
+  }
+
+  /* BUTTON */
+  .btn.primary {
+    background-color: black;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .btn.primary:hover {
+    background-color: black;
+    transform: scale(1.07);
+  }
+</style>
+
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo"><span style="color:#222;font-weight:bold;">Land</span><span style="color:#387AFF;font-weight:bold;">Registry</span></div>
+    <ul class="nav-links">
+
+            {% if session.get('user_id') %}
+                <li><a href="{{ url_for('home') }}" >Home</a></li>
+                <li><a href="{{ url_for('about') }}" >About Us</a></li>
+                <li><a href="{{ url_for('features') }}">Features</a></li>
+                <li><a href="{{ url_for('faqs') }}">FAQs</a></li>
+                <li><a href="{{ url_for('contact') }}" class="active">Contact</a></li>
+
+                <li class="nav-auth"><a href="{{ url_for('account_details') }}">Account</a></li>
+                <li class="nav-auth2"><a href="{{ url_for('logout') }}">Logout</a></li>
+
+            {% else %}
+                <li><a href="{{ url_for('landing') }}">Home</a></li>
+                <li><a href="{{ url_for('land') }}">Land Inspector</a></li>
+                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+                <li><a href="{{ url_for('about') }}" >About Us</a></li>
+                <li><a href="{{ url_for('features') }}">Features</a></li>
+                <li><a href="{{ url_for('faqs') }}">FAQs</a></li>
+                <li><a href="{{ url_for('contact') }}" class="active">Contact</a></li>
+
+                <li class="nav-auth"><a href="{{ url_for('login') }}">Login</a></li>
+                <li class="nav-auth"><a href="{{ url_for('signin') }}">Sign Up</a></li>
+            {% endif %}
+
+        </ul>
+</nav>
+<div class="contact-section">
+    <h2>Contact Us</h2>
+    <p>
+      Questions? Reach our support team any time.<br>
+      <strong>Email:</strong> landregistry25@gmail.com<br>
+      <strong>Phone:</strong> +91-98765-43xxx
+    </p>
+    <form class="contact-form" method="post">
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Your Name" required>
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Your Email" required>
+      </div>
+      <div class="form-group">
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      </div>
+      <button type="submit" class="btn primary">Send Message</button>
+    </form>
+  </div>
+ 
+
+</body>
+</html>

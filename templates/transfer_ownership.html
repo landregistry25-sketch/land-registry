@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Transfer Ownership</title>
+  <style>
+    body { font-family: "Segoe UI"; background: #f5f7ff; }
+    .container { width: 80%; margin: 40px auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .card { display: flex; justify-content: space-between; padding: 20px; border-bottom: 1px solid #ddd; }
+    .profile { width: 45%; }
+    .profile h3 { color: #1b3fc8; margin-bottom: 8px; }
+    button { background: #1b3fc8; color: #fff; padding: 10px 18px; border: none; border-radius: 8px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Ownership Transfer Details</h2>
+    {% for t in transfers %}
+    <div class="card">
+      <div class="profile">
+        <h3>{{ 'Owner' if current_user == t.seller else 'Buyer' }} Details</h3>
+        <p><strong>Name:</strong> {{ t.seller_info.fullname }}</p>
+        <p><strong>Email:</strong> {{ t.seller_info.email }}</p>
+        <p><strong>Phone:</strong> {{ t.seller_info.phone }}</p>
+      </div>
+      <div class="profile">
+        <h3>{{ 'Buyer' if current_user == t.seller else 'Owner' }} Details</h3>
+        <p><strong>Name:</strong> {{ t.buyer_info.fullname }}</p>
+        <p><strong>Email:</strong> {{ t.buyer_info.email }}</p>
+        <p><strong>Phone:</strong> {{ t.buyer_info.phone }}</p>
+      </div>
+      <form action="{{ url_for('finalize_transfer', transfer_id=t.id) }}" method="post">
+        <button type="submit">Finalize Transfer</button>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

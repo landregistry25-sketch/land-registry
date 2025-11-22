@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Ownership - LandRegistry</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <style>
+        body { background: #f8fafd; font-family: 'Montserrat', Arial, sans-serif; margin: 0; }
+        .navbar { background:#fff; box-shadow:0 2px 8px #ecf0f6; padding:0 40px; display:flex; align-items:center; height:70px; }
+        .navbar .logo { font-size:2em; font-weight:700; }
+        .navbar .logo span { color:#417ffc;}
+        .navbar nav { margin-left:auto; display:flex; gap:35px; }
+        .navbar nav a { text-decoration:none; color:#222; font-weight:500; font-size:1.1em;}
+        .navbar .action-btn { margin-left:24px; background:#417ffc; color:#fff; font-weight:700; border:none; border-radius:9px; padding:10px 25px; font-size:1.1em; cursor:pointer;}
+        .navbar .logout-btn { background:#b7322c;}
+        .container { max-width:650px; margin:52px auto 32px auto; background:#fff; box-shadow:0 3px 18px #eaecf3; border-radius:12px; padding:36px;}
+        h1 { font-size:2em; font-weight:800; text-align:center;}
+        form { margin-top:35px;}
+        label { display:block; margin-bottom:4px; margin-top:15px; font-weight:600;}
+        input, textarea, select { width:100%; padding:10px; border:1px solid #b5c6e0; border-radius:7px; margin-bottom:16px;}
+        button { margin-top:12px; background:#417ffc; border:none; border-radius:7px; color:#fff; font-size:1.12em; font-weight:700; padding:12px; cursor:pointer;}
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">Land<span>Registry</span></div>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="buy.html">Buy</a>
+            <a href="sell.html">Sell</a>
+            <a href="verify.html">Verify</a>
+            <a href="account.html" class="action-btn">Account</a>
+            <button class="action-btn logout-btn">Logout</button>
+        </nav>
+    </div>
+    <div class="container">
+        <h1>Verify Property Ownership</h1>
+        <form method="post" enctype="multipart/form-data">
+            <label>Land ID</label>
+            <input type="number" name="land_id" required>
+            <label>Proof Document (PDF)</label>
+            <input type="file" name="document" accept=".pdf" required>
+            <button type="submit">Submit Verification Request</button>
+        </form>
+    </div>
+</body>
+</html>

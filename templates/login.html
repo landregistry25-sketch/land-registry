@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styleA.css') }}" >
+</head>
+<body>
+  <a href="{{ url_for('landing') }}" class="arrow" title="Home">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="30" height="30" viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6" />
+     </svg>
+    </a>
+  <div class="container">
+    <h2>Login</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, msg in messages %}
+      {% if category == 'danger' %}
+        <p class="error" style="color:red; text-align:center;">{{ msg }}</p>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+    <form action="{{ url_for('login') }}" method="post" autocomplete="off">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" required />
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required />
+
+      <button type="submit">Login</button>
+    </form>
+    <div class="links">
+      <a href="{{ url_for('signin') }}">Sign Up</a> |
+      <a href="{{ url_for('forgot_password') }}">Forgot Password</a> |
+      <a href="{{ url_for('forgot_username') }}">Forgot Username</a>
+    </div>
+  </div>
+
+  
+
+
+
+
+
+</body>
+</html>

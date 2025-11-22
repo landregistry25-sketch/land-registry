@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Land Registry</title>
+  <style>
+    :root {
+      --primary: green;
+      --primary-hover: rgb(7, 157, 7);
+      --feature-green: green;
+      --feature-blue: red;
+      --bg-light: #f5f8fe;
+      --white: #fff;
+      --feature-shadow: 0 4px 20px rgba(24, 88, 221, 0.07);
+      --feature-radius: 16px;
+      --border-green: green;
+      --border-blue: red;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #f3f6fc 0%, #eef2fb 100%);
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+      color: #222;
+    }
+
+    /* ---------------------------------------
+       NEW NAVBAR (Sell Page Style in WHITE)
+       --------------------------------------- */
+    .navbar {
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 16px 35px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.18);
+      border-bottom: 2px solid #e5e5e5;
+      gap: 12px;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background-color: black;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      transition: 0.3s;
+      border: none;
+    }
+    .back-btn:hover {
+      background: #333;
+    }
+
+    .nav-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: black;
+      margin-left: 5px;
+    }
+
+    /* Features section */
+    .features-row {
+      display: flex;
+      justify-content: center;
+      gap: 150px;
+      margin-top: 225px;
+      margin-bottom: 42px;
+      flex-wrap: wrap;
+    }
+
+    .feature-box {
+      background: var(--white);
+      border-radius: var(--feature-radius);
+      box-shadow: var(--feature-shadow);
+      border: 2.5px solid #efefef;
+      width: 180px;
+      padding: 34px 6px 26px 6px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .feature-box.sell {
+      border-color: var(--border-green);
+    }
+
+    .feature-box.request {
+      border-color: var(--border-blue);
+    }
+
+    .feature-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+      font-size: 3.2rem;
+      margin-bottom: 16px;
+    }
+
+    .feature-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-top: 6px;
+      margin-bottom: 0px;
+      letter-spacing: 1px;
+      color: #222;
+    }
+
+    .feature-box.sell .feature-title {
+      color: var(--feature-green);
+    }
+
+    .feature-box.request .feature-title {
+      color: var(--feature-blue);
+    }
+
+    @media (max-width: 800px) {
+      .features-row {
+        flex-direction: column;
+        gap: 22px;
+        align-items: center;
+      }
+      .main-content {
+        padding: 0 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SELL PAGE STYLE NAVBAR (WHITE + BLACK) -->
+  <div class="navbar">
+    <a href="{{ url_for('home') }}" class="back-btn" title="Go back to Home">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+           stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+           width="28" height="28" viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </a>
+
+    <span class="nav-title">Home</span>
+  </div>
+
+  <!-- Main Content -->
+  <div class="features-row">
+    <!-- SELL BOX -->
+    <a href="{{ url_for('sell') }}" class="feature-box sell" title="Go to Sell Page">
+      <span class="feature-icon">&#128181;</span>
+      <div class="feature-title">SELL</div>
+    </a>
+
+    <!-- REQUEST BOX -->
+    <a href="{{ url_for('request_page') }}" class="feature-box request" title="Go to Request Page">
+      <span class="feature-icon">&#128221;</span>
+      <div class="feature-title">REQUEST</div>
+    </a>
+  </div>
+
+</body>
+</html>

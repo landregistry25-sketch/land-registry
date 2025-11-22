@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sell Property</title>
+  <!-- Select2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #0b7d4c;
+      --primary-hover: #13a864;
+      --card-bg: #ffffff;
+      --border: #13a864;
+      --shadow: 0 10px 30px rgba(11, 125, 76, 0.15);
+    }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, #f3f6fc 0%, #eef2fb 100%);
+      color: #1c1c1c;
+      overflow: scroll;
+    }
+    /* Remove arrows from number input */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+    /* Navbar with back button included */
+    .navbar {
+      background: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 35px;
+      box-shadow: 0 3px 12px rgba(0, 125, 76, 0.15);
+      border-bottom: 2px solid #d6f7e6;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+      margin-right: 0;
+    }
+    .back-btn:hover {
+      background: var(--primary-hover);
+      color: #fff;
+    }
+    .nav-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-right a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      padding: 7px 13px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .nav-right a:hover {
+      background: #e4faf1;
+    }
+    /* Main container */
+    .container {
+      width: 72%;
+      max-width: 850px;
+      background: var(--card-bg);
+      margin: 30px auto;
+      padding: 40px 45px;
+      border-radius: 16px;
+      border: 2px solid #d1f3dd;
+      box-shadow: var(--shadow);
+    }
+    h2 {
+      text-align: center;
+      color: var(--primary);
+      font-size: 28px;
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+    /* Toggle buttons */
+    .toggle-box {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .toggle-btn {
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: 2px solid var(--primary);
+      background: white;
+      color: var(--primary);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .toggle-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+    /* Form elements */
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #233;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid var(--border);
+      background: white;
+      margin-top: 6px;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+    .readonly-input {
+      background-color: #f1f1f1;
+      border: 2px solid #c8eedd;
+    }
+    /* Submit button */
+    button[type="submit"] {
+      background: var(--primary);
+      color: white;
+      padding: 15px;
+      width: 60%;
+      border: none;
+      border-radius: 10px;
+      margin-top: 25px;
+      font-size: 17px;
+      cursor: pointer;
+    }
+    /* Hide inactive forms */
+    .form-section {
+      display: none;
+    }
+    .visible {
+      display: block;
+    }
+    /* -------- Select2 Styling (MATCH YOUR INPUT BOXES) -------- */
+    .select2-container .select2-selection--single {
+      height: 46px !important;
+      padding: 6px 10px;
+      border: 2px solid var(--border) !important;
+      border-radius: 8px !important;
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+    }
+    .select2-selection__rendered {
+      color: #333 !important;
+      line-height: 32px !important;
+      font-size: 15px;
+    }
+    .select2-selection__arrow {
+      height: 34px !important;
+      right: 10px !important;
+    }
+    .select2-container--default.select2-container--focus .select2-selection--single {
+      border-color: var(--primary) !important;
+      box-shadow: 0 0 6px rgba(11,125,76,0.18);
+    }
+    .select2-dropdown {
+      border: 2px solid var(--border) !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="nav-left">
+      <a href="{{ url_for('shome') }}" class="back-btn" title="Go back to Dashboard">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" viewBox="0 0 24 24">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </a>
+      <span class="nav-title">Sell Your Property</span>
+    </div>
+    <div class="nav-right">
+      <a href="{{ url_for('help_page') }}">Help</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+    </div>
+  </div>
+  <!-- MAIN -->
+  <div class="container">
+    <h2>Submit Your Land for Verification / Sale</h2>
+    <!-- Toggle -->
+    <div class="toggle-box">
+      <button class="toggle-btn active" id="btn-full">Submit Full Documents</button>
+      <button class="toggle-btn" id="btn-digital">Upload Digital Certificate Only</button>
+    </div>
+    <!-- FULL FORM -->
+    <form action="{{ url_for('sell') }}" method="POST" enctype="multipart/form-data" id="form-full" class="form-section visible">
+      <label>Upload Document (PDF)</label>
+      <input type="file" name="upload_document" accept="application/pdf" required />
+      <label>Encumbrance Certificate</label>
+      <input type="file" name="encumbrance_certificate" accept="application/pdf" required />
+      <label>Sales Deed</label>
+      <input type="file" name="sales_deed" accept="application/pdf" required />
+      <label>Property Tax Receipts</label>
+      <input type="file" name="property_tax_receipts" accept="application/pdf" required />
+      <label>Land Map / Layout</label>
+      <input type="file" name="land_map" accept="image/*,application/pdf" required />
+      <label>Land Photos</label>
+      <input type="file" name="land_photos" multiple accept="image/*" />
+      <hr />
+      <label>Owner Full Name</label>
+      <input type="text" name="owner" value="{{ ownername }}" readonly class="readonly-input">
+      <label>Aadhar Card Number</label>
+      <input type="text" name="aadhar_number" maxlength="12" required />
+      <label>Upload Aadhar Card</label>
+      <input type="file" name="aadhar_card" accept="application/pdf,image/*" required />
+      <!-- FIXED LOCATION (MATCHING STYLE) -->
+      <label>Location</label>
+      <select name="location" id="location-select" required>
+        <option value="">Search Telangana Locations...</option>
+        <option>Hyderabad</option>
+        <option>Warangal</option>
+        <option>Nalgonda</option>
+        <option>Khammam</option>
+        <option>Karimnagar</option>
+        <option>Nizamabad</option>
+        <option>Mahabubnagar</option>
+        <option>Adilabad</option>
+        <option>Sangareddy</option>
+        <option>Medchal</option>
+        <option>Vikarabad</option>
+        <option>Mancherial</option>
+        <option>Mahabubabad</option>
+        <option>Kothagudem</option>
+      </select>
+      <label>Size (sq.ft)</label>
+      <input type="text" name="size" required />
+      <label>Price (₹)</label>
+      <input type="number" name="price" required />
+      <label>Land Type</label>
+      <select name="type" required>
+        <option value="">Select Land Type</option>
+        <option value="Residential">Residential</option>
+        <option value="Agricultural">Agricultural</option>
+        <option value="Commercial">Commercial</option>
+      </select>
+      <label>Full Address</label>
+      <textarea name="address" rows="3" required></textarea>
+      <center><button type="submit">Submit Full Documents</button></center>
+    </form>
+    <!-- DIGITAL CERTIFICATE FORM -->
+    <form action="{{ url_for('sell') }}" method="POST" enctype="multipart/form-data" id="form-digital" class="form-section">
+      <label>Upload Digital Certificate (PDF)</label>
+      <input type="file" name="digital_certificate" accept="application/pdf" required />
+      <label>Owner Full Name</label>
+      <input type="text" name="owner" value="{{ ownername }}" readonly class="readonly-input">
+      <label>Aadhar Card Number</label>
+      <input type="text" name="aadhar_number" maxlength="12" required />
+      <center><button type="submit">Submit Digital Certificate</button></center>
+    </form>
+  </div>
+  <!-- Select2 JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+    // Toggle Forms
+    const btnFull = document.getElementById("btn-full");
+    const btnDigital = document.getElementById("btn-digital");
+    const formFull = document.getElementById("form-full");
+    const formDigital = document.getElementById("form-digital");
+    btnFull.onclick = () => {
+      btnFull.classList.add("active");
+      btnDigital.classList.remove("active");
+      formFull.classList.add("visible");
+      formDigital.classList.remove("visible");
+    };
+    btnDigital.onclick = () => {
+      btnDigital.classList.add("active");
+      btnFull.classList.remove("active");
+      formDigital.classList.add("visible");
+      formFull.classList.remove("visible");
+    };
+    // Select2 initialization
+    $(document).ready(function() {
+      $('#location-select').select2({
+        placeholder: "Search Telangana Locations...",
+        allowClear: true,
+        width: '100%'
+      });
+    });
+  </script>
+</body>
+</html>

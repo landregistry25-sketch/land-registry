@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Property Details</title>
+  <style>
+    :root {
+      --accent: #1542c8;
+      --accent-light: #3a6df0;
+      --muted: #6b7280;
+      --bg: #f3f7fb;
+      --card: #ffffff;
+      --radius: 12px;
+      --shadow: 0 8px 30px rgba(21,66,200,0.08);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+     background: linear-gradient(135deg, #f3f6fc 0%, #eef2fb 100%);
+      color: #10203a;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Navbar */
+    .nav {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 24px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(16,32,58,0.06);
+      gap: 12px;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--accent-light);
+      transform: translateX(-2px);
+    }
+
+    .nav-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-left: 6px;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 28px auto;
+      padding: 28px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    /* Top Gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 18px;
+      align-items: start;
+      padding: 22px;
+    }
+
+    .main-photo {
+      width: 100%;
+      height: 420px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #eef6ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .main-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .thumbs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .thumb {
+      height: 120px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f7fafc;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .thumb.active {
+      border-color: var(--accent);
+      transform: scale(1.01);
+    }
+
+    .content {
+      padding: 26px 28px 36px;
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .left-col {
+      flex: 1 1 420px;
+      min-width: 280px;
+    }
+
+    .right-col {
+      width: 320px;
+      min-width: 240px;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 10px 0 22px;
+    }
+
+    .info-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px;
+    }
+
+    .info-list li {
+      padding: 10px 0;
+      border-bottom: 1px dashed #eef3ff;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .info-key {
+      min-width: 140px;
+      font-weight: 700;
+      color: #16325a;
+    }
+
+    .info-val {
+      color: #273447;
+    }
+
+    /* Documents Section */
+    .documents {
+      margin-top: 20px;
+      background: #f9fbff;
+      border-radius: 10px;
+      padding: 16px 20px;
+      border: 1px solid #dbe3f5;
+      box-shadow: 0 4px 12px rgba(21,66,200,0.05);
+    }
+
+    .documents h3 {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    .doc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 8px rgba(16,32,58,0.06);
+    }
+
+    .doc-label {
+      font-weight: 600;
+      color: #10203a;
+    }
+
+    .doc-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.25s ease;
+    }
+
+    .doc-btn:hover {
+      background: var(--accent-light);
+    }
+
+    .doc-missing {
+      color: var(--muted);
+      font-size: 13px;
+      font-style: italic;
+    }
+
+    .action-box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 18px;
+      border: 1px solid #eef3ff;
+      box-shadow: 0 4px 18px rgba(21,66,200,0.04);
+    }
+
+    .price {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      color: #234;
+      background: #e6f2ea;
+      margin-bottom: 10px;
+    }
+
+    .sell-btn {
+      background: #1b5e20;
+      color: white;
+      padding: 10px 20px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .sell-btn:hover {
+      background: #2e7d32;
+    }
+
+    .sell-btn-disabled {
+      background: #9e9e9e;
+      color: white;
+      padding: 10px 20px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+    }
+
+    .small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .navbar {
+      background: white;
+      padding: 14px 30px;
+      box-shadow: 0 3px 12px rgba(21, 66, 200, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+    }
+
+    .navbar a.back-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      background: #1542c8;
+      color: white;
+      border-radius: 8px;
+      width: 38px;
+      height: 38px;
+      transition: background 0.3s;
+    }
+
+    .navbar a.back-arrow:hover {
+      background: #1542c8;
+    }
+
+    .navbar strong {
+      font-size: 20px;
+      color: #1542c8;
+      margin-left: 10px;
+      font-weight: 700;
+    }
+
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .thumbs {
+        flex-direction: row;
+        overflow: auto;
+        height: 110px;
+      }
+
+      .thumb {
+        min-width: 120px;
+        flex: 0 0 120px;
+        height: 80px;
+      }
+
+      .right-col {
+        width: 100%;
+        order: 3;
+      }
+
+      .left-col {
+        order: 2;
+      }
+
+      .title {
+        font-size: 22px;
+      }
+
+      .main-photo {
+        height: 260px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🔵 Top Nav with Back Button -->
+   <div class="navbar">
+    <a href="{{ url_for('myproperties') }}" class="back-arrow" title="Go back to Home">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+           stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+           width="22" height="22" viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </a>
+    <strong>Property Details</strong>
+  </div>
+
+  <div class="page">
+    <div class="card">
+
+      <!-- 📸 Gallery -->
+      <div class="gallery">
+        <div class="main-photo" id="mainPhotoContainer">
+          {% set photos = (land.land_photos or '') %}
+          {% set photo_list = photos.split(',') if photos else [] %}
+          {% if photo_list and photo_list[0]|trim %}
+            <img id="mainPhoto" src="{{ url_for('static', filename='uploads/' + photo_list[0].strip()) }}" alt="Property photo">
+          {% else %}
+            <img id="mainPhoto" src="{{ url_for('static', filename='images/defaultland.jpg') }}" alt="No photo">
+          {% endif %}
+        </div>
+
+        <div class="thumbs" id="thumbsContainer">
+          {% if photo_list %}
+            {% for p in photo_list %}
+              {% set pstr = p.strip() %}
+              {% if pstr %}
+                <div class="thumb {% if loop.index0 == 0 %}active{% endif %}" data-src="{{ url_for('static', filename='uploads/' + pstr) }}">
+                  <img src="{{ url_for('static', filename='uploads/' + pstr) }}" alt="thumb">
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <div class="thumb active" data-src="{{ url_for('static', filename='images/defaultland.jpg') }}">
+              <img src="{{ url_for('static', filename='images/defaultland.jpg') }}" alt="no image">
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- 📋 Details Section -->
+      <div class="content">
+        <div class="left-col">
+          <div class="title">Property Details</div>
+          <ul class="info-list">
+            <li><span class="info-key">Owner:</span><span class="info-val">{{ land.ownername or land.owner or 'N/A' }}</span></li>
+            <li><span class="info-key">Location:</span><span class="info-val">{{ land.location or 'N/A' }}</span></li>
+            <li><span class="info-key">Type:</span><span class="info-val">{{ land.type or 'N/A' }}</span></li>
+            <li><span class="info-key">Size:</span><span class="info-val">{{ land.size or 'N/A' }}</span></li>
+            <li><span class="info-key">Price:</span><span class="info-val">₹{{ land.price or '0' }}</span></li>
+            <li><span class="info-key">Verified:</span><span class="info-val">{{ 'Yes' if land.verified == 'yes' else 'No' }}</span></li>
+            <li><span class="info-key">Sale Status:</span>
+              <span class="info-val">
+                {% if land.onsale == 1 or land.onsale == '1' %}
+                  For Sale
+                {% else %}
+                  Not For Sale
+                {% endif %}
+              </span>
+            </li>
+            <li><span class="info-key">Address:</span><span class="info-val">{{ land.address or 'N/A' }}</span></li>
+          </ul>
+
+          <!-- 📄 Documents -->
+          <div class="documents">
+            <h3>Documents</h3>
+            {% macro doc_row(label, field) -%}
+              {% if field %}
+                <div class="doc-row">
+                  <div class="doc-label">{{ label }}</div>
+                  <a class="doc-btn" href="{{ url_for('static', filename='uploads/' + field) }}" target="_blank">View</a>
+                </div>
+              {% else %}
+                <div class="doc-row">
+                  <div class="doc-label">{{ label }}</div>
+                  <div class="doc-missing">Not uploaded</div>
+                </div>
+              {% endif %}
+            {%- endmacro %}
+
+            {{ doc_row('Aadhar Card', land.aadhar_card) }}
+            {{ doc_row('Land Map', land.land_map) }}
+            {{ doc_row('Sales Deed', land.sales_deed) }}
+            {{ doc_row('Property Tax Receipts', land.property_tax_receipts) }}
+            {{ doc_row('Encumbrance Certificate', land.encumbrance_certificate) }}
+          </div>
+        </div>
+
+        <!-- 🏠 Sidebar Actions -->
+        <aside class="right-col">
+          <div class="action-box">
+            <div class="price">₹{{ land.price or '0' }}</div>
+            <div class="small">Owner: {{ land.ownername or 'N/A' }}</div>
+
+            {% if land.verified == 'yes' %}
+              <div class="status-pill">Verified</div>
+            {% else %}
+              <div class="status-pill" style="background:#fff4e6;color:#8a5a00;">Pending verification</div>
+            {% endif %}
+
+            {% if land.verified == 'yes' or land.verified == 1 %}
+              {% if not (land.onsale == 1 or land.onsale == '1') %}
+                <form class="sell-form" method="POST" action="{{ url_for('sell_land', landid=land.id) }}">
+                  <input type="hidden" name="landid" value="{{ land.id }}">
+                  <button class="sell-btn" type="submit">Sell Property</button>
+                </form>
+                <div class="small" style="margin-top:8px;">This property will be listed for sale immediately.</div>
+              {% else %}
+                <button class="sell-btn-disabled" disabled>Already For Sale</button>
+                <div class="small" style="margin-top:8px;">This property is already listed for sale.</div>
+              {% endif %}
+            {% else %}
+              <button class="sell-btn-disabled" disabled>Sell Property (Disabled)</button>
+              <div class="small" style="margin-top:8px; color:#a94442;">
+                Property must be verified by Land Inspector before it can be sold.
+              </div>
+            {% endif %}
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 🖼️ Thumbnail switching
+    (function() {
+      const thumbs = document.querySelectorAll('.thumb');
+      const main = document.getElementById('mainPhoto');
+      thumbs.forEach(t => {
+        t.addEventListener('click', () => {
+          document.querySelectorAll('.thumb').forEach(x => x.classList.remove('active'));
+          t.classList.add('active');
+          const src = t.getAttribute('data-src');
+          if (src) { main.src = src; }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

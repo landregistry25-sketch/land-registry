@@ -1,0 +1,9 @@
+Flask
+pymysql
+web3
+qrcode
+fpdf
+PyPDF2
+gunicorn
+Werkzeug
+python-dotenv

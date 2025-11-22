@@ -1,0 +1,215 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FAQs - LandRegistry</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}" >
+
+    <style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: #f4f6f8; 
+        color: #111;
+        overflow: scroll;
+    }
+
+    .container {
+        width: 90%;
+        margin: 50px auto;
+    }
+
+    h1 {
+        font-size: 32px;
+        color: black;
+        margin-bottom: 25px;
+        font-weight: bold;
+    }
+
+    h3.section-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #111;
+    }
+
+    .faq-item {
+        background: #ffffff;
+        border: 1px solid #cfcfcf;
+        border-radius: 6px;
+        overflow: hidden;
+        margin-bottom: 12px;
+        width: 100%;
+    }
+
+    .faq-question {
+        padding: 18px 20px;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #111;
+        transition: background 0.3s ease;
+    }
+
+    .faq-question:hover {
+        background: #e7edf5;
+    }
+
+    .faq-question .arrow {
+        display: inline-block;
+        border: solid #111;
+        border-width: 0 3px 3px 0;
+        padding: 5px;
+        transform: rotate(45deg);
+        transition: transform 0.3s ease;
+        margin-left: 10px;
+    }
+
+    .faq-question.active .arrow {
+        transform: rotate(-135deg);
+    }
+
+    .faq-answer {
+        background: #f8f9fb;
+        padding: 0px 20px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .faq-answer p {
+        margin: 15px 0;
+        line-height: 1.5;
+    }
+
+    .faq-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .faq-left {
+        width: 60%;
+    }
+
+    .faq-right {
+        width: 40%;
+        min-height: 450px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eef4ff;
+        border-radius: 12px;
+        padding: 20px;
+    }
+
+    .faq-right img {
+        max-width: 100%;
+        height: auto;
+    }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+  <div class="logo"><span style="color:#222;font-weight:bold;">Land</span><span style="color:#387AFF;font-weight:bold;">Registry</span></div>
+  <ul class="nav-links">
+
+            {% if session.get('user_id') %}
+                <li><a href="{{ url_for('home') }}" >Home</a></li>
+                <li><a href="{{ url_for('about') }}" >About Us</a></li>
+                <li><a href="{{ url_for('features') }}">Features</a></li>
+                <li><a href="{{ url_for('faqs') }}" class="active">FAQs</a></li>
+                <li><a href="{{ url_for('contact') }}" >Contact</a></li>
+
+                <li class="nav-auth"><a href="{{ url_for('account_details') }}">Account</a></li>
+                <li class="nav-auth2"><a href="{{ url_for('logout') }}">Logout</a></li>
+
+            {% else %}
+                <li><a href="{{ url_for('landing') }}">Home</a></li>
+                <li><a href="{{ url_for('land') }}">Land Inspector</a></li>
+                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+                <li><a href="{{ url_for('about') }}" >About Us</a></li>
+                <li><a href="{{ url_for('features') }}">Features</a></li>
+                <li><a href="{{ url_for('faqs') }}" class="active">FAQs</a></li>
+                <li><a href="{{ url_for('contact') }}" >Contact</a></li>
+
+                <li class="nav-auth"><a href="{{ url_for('login') }}">Login</a></li>
+                <li class="nav-auth"><a href="{{ url_for('signin') }}">Sign Up</a></li>
+            {% endif %}
+
+        </ul>
+</nav>
+
+<div class="container">
+    <div class="faq-wrapper">
+
+        <div class="faq-left">
+            <h1>Help</h1>
+            <h3 class="section-title">Popular Questions</h3>
+
+            <div class="faq-item">
+                <div class="faq-question">What documents are required for land registration? <span class="arrow"></span></div>
+                <div class="faq-answer"><p>You must submit ID proof, land ownership proof, recent tax receipts, and a signed application.</p></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How do I verify land ownership before registering? <span class="arrow"></span></div>
+                <div class="faq-answer"><p>You can verify land records through official government portals or local land authority.</p></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What is a Survey Number? <span class="arrow"></span></div>
+                <div class="faq-answer"><p>A Survey Number is a unique identifier assigned to land for government records.</p></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How long does land registration approval take? <span class="arrow"></span></div>
+                <div class="faq-answer"><p>Processing usually takes 3–14 working days depending on verification workload.</p></div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can I track my application status? <span class="arrow"></span></div>
+                <div class="faq-answer"><p>Yes, using your registration reference ID on the portal.</p></div>
+            </div>
+        </div>
+
+        
+        <div class="faq-right">
+            <img src="https://i.ibb.co/qLk6r9wW/Untitled-design-20251105-112145-0000-3.jpg" alt="FAQ Illustration">
+        </div>
+
+    </div>
+</div>
+
+<script>
+const questions = document.querySelectorAll(".faq-question");
+
+questions.forEach(question => {
+    question.addEventListener("click", () => {
+
+        const currentlyOpen = document.querySelector(".faq-answer[style*='max-height']");
+
+        if (currentlyOpen && currentlyOpen !== question.nextElementSibling) {
+            currentlyOpen.style.maxHeight = null;
+            currentlyOpen.previousElementSibling.classList.remove("active");
+        }
+
+        const answer = question.nextElementSibling;
+
+        if (answer.style.maxHeight) {
+            answer.style.maxHeight = null;
+            question.classList.remove("active");
+        } else {
+            answer.style.maxHeight = answer.scrollHeight + "px";
+            question.classList.add("active");
+        }
+    });
+});
+</script>
+
+</body>
+</html> 

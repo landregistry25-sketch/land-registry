@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Properties</title>
+
+  <style>
+    :root {
+      --primary: #1542c8;
+      --primary-hover: #1e4ff2;
+      --accent: #3a6df0;
+      --bg: #f0f3ff;
+      --table-header: #e9ecff;
+      --text-dark: #14213d;
+      --success: #155724;
+      --success-bg: #d4edda;
+      --warning: #856404;
+      --warning-bg: #fff3cd;
+      --danger: #721c24;
+      --danger-bg: #f8d7da;
+      --light-card: #fff;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ---------------- Blue Navbar (Sell/Verify Style) ---------------- */
+    .navbar {
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 35px;
+      box-shadow: 0 4px 16px rgba(21, 66, 200, 0.20);
+      border-bottom: 2px solid #1136a3;
+    }
+
+    .nav-left {
+      
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background-color: #1542c8;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+    }
+    .back-btn:hover { background: #805ee9; }
+
+    .nav-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1542c8;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .nav-right a {
+      color: #1542c8;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 7px 13px;
+      border-radius: 6px;
+      transition: 0.2s;
+    }
+    .nav-right a:hover {
+      background: rgba(135, 102, 234, 0.15);
+    }
+
+    /* ---------------- Container ---------------- */
+    .container {
+      max-width: 980px;
+      margin: 42px auto;
+      background: var(--light-card);
+      border-radius: 14px;
+      box-shadow: 0 7px 26px rgba(21, 66, 200, 0.13);
+      padding: 38px 32px 40px 32px;
+    }
+
+    h1 {
+      color: var(--primary);
+      text-align: center;
+      font-size: 27px;
+      margin-bottom: 28px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 22px;
+    }
+
+    .topbar a {
+      background: var(--primary);
+      color: #fff;
+      padding: 11px 21px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+      box-shadow: 0 2px 12px rgba(21,66,200,0.09);
+      transition: background 0.22s;
+      letter-spacing: 0.4px;
+    }
+
+    .topbar a:hover { background: var(--primary-hover); }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--light-card);
+      box-shadow: 0 1px 8px #eceef6;
+      margin-top: 12px;
+    }
+
+    th, td {
+      text-align: center;
+      padding: 15px 5px;
+      font-size: 15px;
+      border-bottom: 1.5px solid #edf0fc;
+      transition: background 0.22s;
+    }
+
+    th {
+      background: var(--table-header);
+      font-weight: 700;
+      color: var(--primary);
+      border-bottom: 2px solid #dce2ff;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    tr {
+      cursor: pointer;
+      transition: background-color 0.23s;
+    }
+
+    tr:hover { background-color: #f3f7ff; }
+
+    .status {
+      font-weight: bold;
+      border-radius: 7px;
+      padding: 7px 12px;
+      display: inline-block;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+    }
+
+    .pending { background: var(--warning-bg); color: var(--warning); }
+    .approved { background: var(--success-bg); color: var(--success); }
+    .rejected { background: var(--danger-bg); color: var(--danger); }
+    .onsale { background: #e2f6ea; color: var(--success); }
+    .notsale { background: #e4e9ff; color: var(--primary); }
+
+    .btn {
+      padding: 9px 17px;
+      border: none;
+      border-radius: 7px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 15px;
+      transition: background 0.3s;
+      margin: 2px 4px;
+    }
+
+    .btn-delete { background: #e63946; color: white; }
+    .btn-delete:hover { background: #c92a37; }
+
+    .btn-sell { background: #15a620; color: white; }
+    .btn-sell:hover { background: #159c43; }
+
+    .btn-disabled, .btn[disabled] {
+      background: #c8c8cc;
+      color: #fff;
+      cursor: not-allowed;
+      font-weight: 600;
+    }
+
+    @media (max-width: 880px) {
+      .container { padding: 15px 4px; }
+      h1 { font-size: 21px; }
+      th, td { padding: 9px 3px; font-size: 13px; }
+      .topbar a { padding: 8px 12px; font-size: 14px; }
+    }
+  </style>
+
+  <script>
+    function confirmDelete(event, link) {
+      event.stopPropagation();
+      if (confirm("Are you sure you want to delete this property?")) {
+        window.location.href = link;
+      }
+    }
+
+    function confirmSell(event, form) {
+      event.stopPropagation();
+      if (confirm("Do you want to list this property for sale?")) {
+        form.submit();
+      }
+    }
+
+    function goToDetail(landId) {
+      window.location.href = `/property_detail/${landId}`;
+    }
+  </script>
+
+</head>
+<body>
+
+  <!-- BLUE NAVBAR (Correct Matching Style) -->
+  <div class="navbar">
+    <div class="nav-left">
+      <a href="{{ url_for('home') }}" class="back-btn" title="Go Back">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+            stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+            width="28" height="28" viewBox="0 0 24 24">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </a>
+      <span class="nav-title">My Properties</span>
+    </div>
+
+    <div class="nav-right">
+      <a href="{{ url_for('help_page') }}">Help</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+    </div>
+  </div>
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="topbar">
+      <a href="{{ url_for('add_property') }}">+ Add Property</a>
+    </div>
+
+    <h1>My Properties</h1>
+
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Location</th>
+        <th>Price (₹)</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Sale</th>
+        <th>Action</th>
+      </tr>
+
+      {% for prop in properties %}
+      <tr onclick="goToDetail({{ prop.id }})">
+        <td>{{ prop.id }}</td>
+        <td>{{ prop.location }}</td>
+        <td>{{ prop.price }}</td>
+        <td>{{ prop.type }}</td>
+
+        <td>
+          {% if prop.verified == 'no' %}
+            <span class="status pending">Pending Verification</span>
+          {% elif prop.verified == 'yes' %}
+            <span class="status approved">Verified</span>
+          {% else %}
+            <span class="status rejected">Rejected</span>
+          {% endif %}
+        </td>
+
+        <td>
+          {% if prop.onsale == 1 %}
+            <span class="status onsale">For Sale</span>
+          {% else %}
+            <span class="status notsale">Not For Sale</span>
+          {% endif %}
+        </td>
+
+        <td>
+          {% if prop.onsale == 1 %}
+            <button class="btn btn-disabled" disabled>Locked</button>
+          {% elif prop.verified == 'yes' %}
+            <form method="POST" action="{{ url_for('sell_land', landid=prop.id) }}" style="display:inline;">
+              <button type="submit" class="btn btn-sell" onclick="confirmSell(event, this.form)">Sell</button>
+            </form>
+          {% else %}
+            <button class="btn btn-disabled" disabled>Awaiting Verification</button>
+          {% endif %}
+
+          {% if prop.onsale == 0 %}
+            <button class="btn btn-delete"
+                    onclick="confirmDelete(event, '{{ url_for('deleteproperty', landid=prop.id) }}')">
+              Delete
+            </button>
+          {% endif %}
+        </td>
+
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+</body>
+</html>

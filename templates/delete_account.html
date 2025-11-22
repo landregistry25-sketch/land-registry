@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Delete Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 6px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 0.6rem;
+            margin: 1rem 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        button {
+            background-color: #dc3545; /* Bootstrap’s danger red */
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c82333;
+        }
+        .warning-text {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Delete Account</h2>
+        <p class="warning-text">Warning: This action is permanent and cannot be undone.</p>
+        <p>To confirm, please type <strong>DELETE</strong> below and click the button.</p>
+
+        <form method="post">
+            <input type="text" name="confirm" placeholder="Type DELETE to confirm" required />
+            <button type="submit">Delete My Account</button>
+        </form>
+
+        <p><a style= "text-decoration:none"; href="{{ url_for('account_details') }}">Cancel and go back</a></p>
+    </div>
+</body>
+</html>

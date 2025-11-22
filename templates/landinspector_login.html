@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Land Inspector Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style3.css') }}">
+</head>
+
+<body>
+
+ 
+  <button class="back-link" onclick="history.back()">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" width="40" height="40" viewBox="0 0 24 24">
+    <polyline points="15 18 9 12 15 6"></polyline>
+  </svg>
+</button>
+
+
+  <div class="login-container">
+    <h1>Land Inspector Login</h1>
+
+    <form method="POST">
+      <input type="text" name="username" placeholder="Inspector Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="btn-login">Login</button>
+    </form>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>{% for msg in messages %}<li>{{ msg }}</li>{% endfor %}</ul>
+      {% endif %}
+    {% endwith %}
+  </div>
+
+</body>
+</html>
+

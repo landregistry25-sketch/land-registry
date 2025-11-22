@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transfer Requests - LandRegistry</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <style>
+        body { background: #f8fafd; font-family: 'Montserrat', Arial, sans-serif; margin: 0; }
+        .navbar { background:#fff; box-shadow:0 2px 8px #ecf0f6; padding:0 40px; display:flex; align-items:center; height:70px; }
+        .navbar .logo { font-size:2em; font-weight:700; }
+        .navbar .logo span { color:#417ffc;}
+        .navbar nav { margin-left:auto; display:flex; gap:35px; }
+        .navbar nav a { text-decoration:none; color:#222; font-weight:500; font-size:1.1em;}
+        .navbar .action-btn { margin-left:24px; background:#417ffc; color:#fff; font-weight:700; border:none; border-radius:9px; padding:10px 25px; font-size:1.1em; cursor:pointer;}
+        .navbar .logout-btn { background:#b7322c;}
+        .container { max-width:800px; margin:48px auto 26px auto; background:#fff; box-shadow:0 3px 18px #ececec; border-radius:12px; padding:38px;}
+        h1 { font-size:2em; font-weight:800; margin-bottom:20px; text-align:center;}
+        table { width:100%; border-collapse:collapse;}
+        th, td { padding:10px 8px; border:1px solid #ecf3f4;}
+        th { background:#f6f9fc;}
+        button { background:#417ffc; color:#fff; border:none; font-size:1em; border-radius:7px; padding:10px 24px; font-weight:600; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">Land<span>Registry</span></div>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="buy.html">Buy</a>
+            <a href="sell.html">Sell</a>
+            <a href="verify.html">Verify</a>
+            <a href="account.html" class="action-btn">Account</a>
+            <button class="action-btn logout-btn">Logout</button>
+        </nav>
+    </div>
+    <div class="container">
+        <h1>Pending Transfer Requests</h1>
+        <table>
+            <tr>
+                <th>Request ID</th><th>Land ID</th><th>Buyer</th><th>Seller</th><th>Status</th><th>Action</th>
+            </tr>
+            <!-- Example data, replace with dynamic -->
+            <tr>
+                <td>301</td><td>101</td><td>buyer34</td><td>owner57</td><td>seller_approved</td>
+                <td><button>Approve Transfer</button></td>
+            </tr>
+        </table>
+    </div>
+<!-- Add inside <body> at the bottom -->
+<div id="confirmModal" style="display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(31,50,63,.13); z-index:9999; align-items:center; justify-content:center;">
+   <div style="background:#fff; padding:34px 32px; border-radius:13px; box-shadow:0 6px 30px #bbb; text-align:center; min-width:270px;">
+      <h2 style="color:#205e82;">Confirmation</h2>
+      <div style="margin:18px 0;">Are you sure you want to approve this request?</div>
+      <button onclick="confirmAction()" style="background:#417ffc; color:#fff; padding:7px 25px; border:none; border-radius:6px;">Confirm</button>
+      <button onclick="closeModal()" style="background:#eee; color:#417ffc; padding:7px 18px; border:none; border-radius:6px; margin-left:17px;">Cancel</button>
+   </div>
+</div>
+<script>
+function openModal() {
+    document.getElementById("confirmModal").style.display = "flex";
+}
+function closeModal() {
+    document.getElementById("confirmModal").style.display = "none";
+}
+function confirmAction() {
+    // submit hidden form or trigger backend (customize if using Flask/Jinja2)
+    document.getElementById("hiddenForm").submit();
+}
+</script>
+<!-- Example trigger button: <button onclick="openModal()">Approve</button> -->
+
+</body>
+</html>

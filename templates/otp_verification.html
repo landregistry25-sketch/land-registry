@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OTP Verification</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styleA.css') }}" />
+</head>
+<body>
+  <div class="container" style="max-width: 320px; text-align: center;">
+    <h2>Enter OTP</h2>
+    <p>Please enter the 6-digit OTP sent to your email.</p>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('otp_verification') }}" method="post" autocomplete="off">
+      <label for="otp">OTP</label>
+      <input type="text" id="otp" name="otp" class="otp-input" pattern="\d{6}" maxlength="6" required />
+      <button type="submit">Verify</button>
+    </form>
+  </div>
+</body>
+</html>

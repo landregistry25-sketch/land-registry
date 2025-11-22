@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Digital Land Certificate</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f4f7ff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #1b3fc8;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .verified {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .info {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .info p {
+            font-size: 15px;
+            color: #333;
+            margin: 8px 0;
+        }
+
+        .docs {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .docs h3 {
+            color: #1939b7;
+            margin-bottom: 10px;
+        }
+
+        .docs a {
+            display: block;
+            color: #1b3fc8;
+            text-decoration: none;
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .docs a:hover {
+            text-decoration: underline;
+        }
+
+        .photos {
+            margin-top: 25px;
+        }
+
+        .photos img {
+            width: 180px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 5px;
+            border: 2px solid #d3dcff;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .footer strong {
+            color: #1b3fc8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏛️ Land Certificate Verification</h1>
+        <p class="verified">✅ This certificate is valid and verified by Land Registry System</p>
+
+        <div class="info">
+            <p><strong>Certificate ID:</strong> {{ certificate_id }}</p>
+            <p><strong>Owner Name:</strong> {{ land.ownername }}</p>
+            <p><strong>Location:</strong> {{ land.location }}</p>
+            <p><strong>Land Type:</strong> {{ land.type }}</p>
+            <p><strong>Size:</strong> {{ land.size }} sq.ft</p>
+            <p><strong>Price:</strong> ₹{{ land.price }}</p>
+            <p><strong>Status:</strong> {{ 'Verified' if land.verified == 'yes' else 'Pending' }}</p>
+        </div>
+
+        <div class="docs">
+            <h3>📄 Uploaded Documents</h3>
+            {% set docs = [
+                ('Aadhar Card', land.aadhar_card),
+                ('Land Map', land.land_map),
+                ('Sales Deed', land.sales_deed),
+                ('Property Tax Receipts', land.property_tax_receipts),
+                ('Encumbrance Certificate', land.encumbrance_certificate)
+            ] %}
+            
+            {% for label, file in docs %}
+                {% if file %}
+                    <a href="{{ url_for('static', filename='uploads/' + file) }}" target="_blank">🔗 {{ label }}</a>
+                {% else %}
+                    <p style="color:#888;">❌ {{ label }}: Not Uploaded</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="photos">
+            <h3>🖼️ Land Photos</h3>
+            {% if photos %}
+                {% for photo in photos %}
+                    <img src="{{ url_for('static', filename='uploads/' + photo) }}" alt="Land Photo">
+                {% endfor %}
+            {% else %}
+                <p style="color:#888;">No photos uploaded.</p>
+            {% endif %}
+        </div>
+
+        <div class="footer">
+            <p><strong>Verified by:</strong> Land Inspector, Digital Land Registry</p>
+            <p><strong>Verification Date:</strong> {{ land.updated_at or 'N/A' }}</p>
+        </div>
+    </div>
+</body>
+</html>

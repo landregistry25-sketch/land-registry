@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us - LandRegistry</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}" >
+    <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background:linear-gradient(135deg,#f3f6fc 0%,#eef2fb 100%);
+      overflow-x: hidden ;
+      overflow: scroll;
+    }
+
+    .about-container {
+      width: 100%;
+      min-height: 100vh;
+      box-sizing: border-box;
+      padding: 10px 10% 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .underline {
+      width: 80px;
+      height: 3px;
+      background-color: #0077cc;
+      margin: 0 auto 25px;
+      border-radius: 5px;
+    }
+
+    .intro-text {
+      text-align: center;
+      max-width: 850px;
+      color: #555;
+      font-size: 17px;
+      line-height: 1.6;
+      margin-bottom: 45px;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    /* Bigger images */
+    .section img {
+      width: 300px;
+      height: 170px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      background: #fff;
+    }
+
+    .section p {
+      flex: 1;
+      font-size: 16.5px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .learn-more {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 22px;
+      background-color: black;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 15px;
+      transition: background-color 0.3s ease;
+    }
+
+    .learn-more:hover {
+      background-color: black;
+    }
+    @media (max-width: 900px) {
+      .section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .section img {
+        width: 90%;
+        height: auto;
+      }
+
+      table {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-section">
+       
+  <nav class="navbar">
+  <div class="logo"><span style="color:#222;font-weight:bold;">Land</span><span style="color:#387AFF;font-weight:bold;">Registry</span></div>
+  <ul class="nav-links">
+
+            {% if session.get('user_id') %}
+                <li><a href="{{ url_for('home') }}" >Home</a></li>
+                <li><a href="{{ url_for('about') }}" class="active">About Us</a></li>
+                <li><a href="{{ url_for('features') }}">Features</a></li>
+                <li><a href="{{ url_for('faqs') }}">FAQs</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+
+                <li class="nav-auth"><a href="{{ url_for('account_details') }}">Account</a></li>
+                <li class="nav-auth2"><a href="{{ url_for('logout') }}">Logout</a></li>
+
+            {% else %}
+                <li><a href="{{ url_for('landing') }}">Home</a></li>
+                <li><a href="{{ url_for('land') }}">Land Inspector</a></li>
+                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+                <li><a href="{{ url_for('about') }}" class="active">About Us</a></li>
+                <li><a href="{{ url_for('features') }}">Features</a></li>
+                <li><a href="{{ url_for('faqs') }}">FAQs</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+
+                <li class="nav-auth"><a href="{{ url_for('login') }}">Login</a></li>
+                <li class="nav-auth"><a href="{{ url_for('signin') }}">Sign Up</a></li>
+            {% endif %}
+
+        </ul>
+  </nav>
+ 
+     <div class="about-container">
+    <h1>About Us</h1>
+    <div class="underline"></div>
+
+     <!-- <p class="intro-text">
+        <b>
+      Welcome to the Land Registry System. Our platform is designed to simplify land management by ensuring transparent,
+      digital, and secure processes for ownership records and transfers.
+      </b>
+    </p>  -->
+
+    <div class="content">
+      <!-- First section -->
+      <div class="section">
+        <img src="https://i.ibb.co/k2T39dmW/2.jpg" alt="Land Registration Image 1">
+        <p>
+          We are committed to simplifying and securing the land registration process for property owners, buyers, and sellers. Our goal is to provide a transparent, efficient, and trustworthy platform that ensures accurate documentation and legal recognition of land ownership. With deep expertise in property laws and modern technology, we aim to eliminate complexities and help users navigate the registration procedures smoothly.
+        </p>
+      </div>
+
+      <!-- Second section -->
+      <div class="section" style="flex-direction: row-reverse;">
+        <img src="https://i.ibb.co/prx9nB8H/1.jpg" alt="Land Registration Image 2">
+        <p>
+          Our team of dedicated professionals works tirelessly to maintain updated records, assist with document verification, and offer guidance throughout every stage of land registration. We believe in creating a secure ecosystem where property rights are protected and property transactions are hassle-free. Trust, integrity, and customer satisfaction are the cornerstones of our service.
+          <br><br>   
+          <a href="{{ url_for('learnmore') }}" class="learn-more">Learn More</a>
+         </p>
+      </div>
+
+
+
+
+</body>
+</html>
